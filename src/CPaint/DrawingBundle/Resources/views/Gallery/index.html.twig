@@ -2,5 +2,13 @@
 {% block content %}
 <div class="container-fluid">
     <h1>Gallery</h1>
+    {% for drawing in drawings %}
+    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+        <img class="bitmap" src="{{ path('gallery_bitmap', {id:drawing.id}) }}" alt="" />
+    </div>
+    {% endfor %}
+    <div class="navigation">
+    {{ knp_pagination_render(drawings) }}
+    </div>
 </div>
 {% endblock %}

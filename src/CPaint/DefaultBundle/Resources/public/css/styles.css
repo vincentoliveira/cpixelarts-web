@@ -1,3 +1,8 @@
 body {
     padding-top: 70px;
 }
+
+.bitmap {
+    width: 100%;
+    height: auto;
+}

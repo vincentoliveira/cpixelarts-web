@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Drawing Entity
  *
  * @ORM\Table(name="drawing")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="CPaint\DrawingBundle\Repository\DrawingRepository")
  */
 class Drawing
 {
