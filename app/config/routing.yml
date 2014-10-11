@@ -1,0 +1,5 @@
+c_paint_default:
+    resource: "@CPaintDefaultBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
