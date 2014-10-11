@@ -3,9 +3,9 @@
 <div class="container-fluid">
     <h1>Gallery</h1>
     {% for drawing in drawings %}
-    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-        <img class="bitmap" src="{{ path('gallery_bitmap', {id:drawing.id}) }}" alt="" />
-    </div>
+    <a class="bitmap col-xs-6 col-sm-4 col-md-3 col-lg-3" href="{{ path('gallery_details', {id:drawing.id}) }}">
+        <img src="{{ path('gallery_bitmap', {id:drawing.id}) }}" alt="" />
+    </a>
     {% endfor %}
     <div class="navigation">
     {{ knp_pagination_render(drawings) }}

@@ -3,6 +3,11 @@ body {
 }
 
 .bitmap {
+    margin: 0;
+    padding: 10px;
+}
+
+.bitmap img {
     width: 100%;
     height: auto;
 }

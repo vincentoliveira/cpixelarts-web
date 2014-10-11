@@ -35,6 +35,18 @@ class GalleryController extends Controller
     }
 
     /**
+     * @Route("/{id}/details", name="gallery_details")
+     * @ParamConverter("drawing", class="CPaintDrawingBundle:Drawing")
+     * @Template()
+     */
+    public function detailsAction(Drawing $drawing)
+    {
+        return array(
+            'drawing' => $drawing,
+        );
+    }
+
+    /**
      * @Route("/{id}/bitmap", name="gallery_bitmap")
      * @ParamConverter("drawing", class="CPaintDrawingBundle:Drawing")
      */
