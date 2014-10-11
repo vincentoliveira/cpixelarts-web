@@ -36,6 +36,13 @@ class Pixel
     private $color;
     
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="position", type="integer", nullable=false)
+     */
+    private $position;
+    
+    /**
      * @var string
      *
      * @ORM\ManyToOne(targetEntity="CPaint\DrawingBundle\Entity\Drawing", inversedBy="pixels")
@@ -98,6 +105,29 @@ class Pixel
     public function getColor()
     {
         return $this->color;
+    }
+
+    /**
+     * Set position
+     *
+     * @param integer $position
+     * @return Pixel
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return integer 
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 
     /**
