@@ -1,3 +1,8 @@
+c_paint_drawing:
+    resource: "@CPaintDrawingBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 c_paint_default:
     resource: "@CPaintDefaultBundle/Controller/"
     type:     annotation

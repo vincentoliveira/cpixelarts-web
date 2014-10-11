@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}cPaint - Collaborative Pixel Drawing{% endblock %}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        {% block meta %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% endblock %}
+
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('bundles/cpaintdefault/css/bootstrap.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('bundles/cpaintdefault/css/bootstrap-theme.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('bundles/cpaintdefault/css/styles.css') }}" />
+        {% endblock %}
+
+        <link rel="icon" type="image/x-icon" ref="{{ asset('favicon.ico') }}">
+    </head>
+    <body>
+        {% include 'CPaintDefaultBundle::_navbar.html.twig' %} 
+        {% block content %}{% endblock %}
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('bundles/cpaintdefault/js/jquery.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/cpaintdefault/js/bootstrap.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/cpaintdefault/js/main.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>

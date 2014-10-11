@@ -1,15 +1,20 @@
 <?php
 
-namespace CPaint\DefaultBundle\Controller;
+namespace CPaint\DrawingBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class DefaultController extends Controller
+/**
+ * Draw Controller
+ * 
+ * @Route("/draw")
+ */
+class DrawController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", name="draw_index")
      * @Template()
      */
     public function indexAction()
