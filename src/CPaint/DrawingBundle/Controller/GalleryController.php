@@ -27,7 +27,8 @@ class GalleryController extends Controller
 
         $paginator = $this->get('knp_paginator');
         $page = $this->get('request')->query->get('page', 1);
-        $drawings = $paginator->paginate($query, $page, 12);
+        $maxResults = 12;
+        $drawings = $paginator->paginate($query, $page, $maxResults);
 
         return array(
             'drawings' => $drawings,

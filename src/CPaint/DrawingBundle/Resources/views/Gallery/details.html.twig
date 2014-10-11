@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <h1><a href="{{ path('gallery_index') }}" title="Back to gallery"><i class="glyphicon glyphicon-chevron-left"></i></a>Gallery: #{{ drawing.id }}</h1>
     <div class="bitmap">
-        <img src="{{ path('gallery_bitmap', {id:drawing.id}) }}" alt="" />
+        <img src="{{ asset('bundles/cpaintdefault/images/empty.png') }}" bitmap-url="{{ path('gallery_bitmap', {id:drawing.id}) }}" alt="" />
     </div>
 </div>
 {% endblock %}
