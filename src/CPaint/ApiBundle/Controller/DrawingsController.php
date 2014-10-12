@@ -6,18 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\View\View;
 
-class DefaultController extends Controller
+class DrawingsController extends Controller
 {
-    /**
-     * Get current API version
-     * 
-     * @api
-     * @Route("/version.{_format}", defaults={ "_format" = "json" })
-     */
-    public function getVersionAction()
+    public function getDrawingsAction()
     {
-        $version = $this->container->getParameter('api_version');
-        $data = array('version' => $version);
+        $data = array('drawings' => []);
 
         $view = View::create()
             ->setData($data);
