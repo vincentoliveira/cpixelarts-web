@@ -1,10 +1,14 @@
-c_paint_drawing:
+cpaint_api:
+    resource: "@CPaintApiBundle/Controller/"
+    type:     annotation
+    prefix:   /api/
+
+cpaint_drawing:
     resource: "@CPaintDrawingBundle/Controller/"
     type:     annotation
     prefix:   /
 
-c_paint_default:
+cpaint_default:
     resource: "@CPaintDefaultBundle/Controller/"
     type:     annotation
     prefix:   /
-

@@ -5,6 +5,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
+
     public function registerBundles()
     {
         $bundles = array(
@@ -17,10 +18,13 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             
+            new JMS\SerializerBundle\JMSSerializerBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
             
             new CPaint\DefaultBundle\CPaintDefaultBundle(),
             new CPaint\DrawingBundle\CPaintDrawingBundle(),
+            new CPaint\ApiBundle\CPaintApiBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -34,6 +38,7 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+        $loader->load(__DIR__ . '/config/config_' . $this->getEnvironment() . '.yml');
     }
+
 }

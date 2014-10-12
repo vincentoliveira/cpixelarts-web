@@ -2,6 +2,9 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
 
+parameters:
+    api_version: "1.0"
+
 framework:
     #esi:             ~
     #translator:      { fallback: "%locale%" }
@@ -82,3 +85,20 @@ knp_paginator:
     template:
         pagination: KnpPaginatorBundle:Pagination:sliding.html.twig
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig
+
+# fos rest
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
+    routing_loader:
+        default_format: json
+    view:
+        view_response_listener: false
+        formats:
+            xml: true
+            json: true
+        templating_formats:
+            html: false
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: json
