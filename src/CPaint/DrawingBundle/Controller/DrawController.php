@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CPaint\DrawingBundle\Entity\Drawing;
 use CPaint\DrawingBundle\Entity\Pixel;
+use CPaint\DrawingBundle\Form\DrawingType;
 use CPaint\DrawingBundle\Service\ColorService;
 
 /**
@@ -43,9 +44,27 @@ class DrawController extends Controller
      * @Route("/new", name="draw_new")
      * @Template()
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
-        return array();
+        $form = $this->createForm(new DrawingType());
+        if ($request->isMethod("POST")) {
+            $form->submit($request);
+            
+            if ($form->isValid()) {
+                $drawing = $form->getData();
+                $drawing->setHeight($drawing->getWidth());        
+                
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($drawing);
+                $em->flush();
+            
+                return $this->redirect($this->generateUrl('draw_edit', array('id' => $drawing->getId())));
+            }
+        }
+        
+        return array(
+            'form' => $form->createView(),
+        );
     }
     
 
