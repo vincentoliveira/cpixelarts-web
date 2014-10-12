@@ -46,8 +46,9 @@ class GalleryController extends Controller
         $colors = [];
         foreach ($drawing->getPixels() as $pixel) {
             $color = $pixel->getColor();
-            $rgb = ColorService::colorToRGB($color);
-            $colors[$color] = sprintf("%02x%02x%02x", $rgb['r'], $rgb['g'], $rgb['b']);
+            if (!isset($colors[$color])) {
+                $colors[$color] = $rgb = ColorService::colorToRGBString($color);
+            }
         }
         
         return array(
@@ -71,14 +72,13 @@ class GalleryController extends Controller
             $y = intval($pixel->getPosition() / $width);
             $x = $pixel->getPosition() % $height;
             
-            if (!isset($colors[$pixel->getColor()])) {
-                $color = $pixel->getColor();
+            $color = $pixel->getColor();
+            if (!isset($colors[$color])) {
                 $rgb = ColorService::colorToRGB($color);
                 $colors[$color] = imagecolorallocate($bitmap, $rgb['r'], $rgb['g'], $rgb['b']);
             }
-            $color = $colors[$pixel->getColor()];
             
-            imagesetpixel($bitmap, $x, $y, $color);
+            imagesetpixel($bitmap, $x, $y, $colors[$color]);
         }
         $tmpfname = tempnam("/tmp", "cpaint");
         imagepng($bitmap, $tmpfname);

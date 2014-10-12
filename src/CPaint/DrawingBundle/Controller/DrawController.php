@@ -3,9 +3,14 @@
 namespace CPaint\DrawingBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use CPaint\DrawingBundle\Entity\Drawing;
+use CPaint\DrawingBundle\Entity\Pixel;
+use CPaint\DrawingBundle\Service\ColorService;
 
 /**
  * Draw Controller
@@ -51,8 +56,51 @@ class DrawController extends Controller
      */
     public function editAction(Drawing $drawing)
     {
+        $colors = [];
+        $pixels = array_fill(0, $drawing->getWidth() * $drawing->getHeight(), false);
+        foreach ($drawing->getPixels() as $pixel) {
+            $color = $pixel->getColor();
+            
+            if (!isset($colors[$color])) {
+                $colors[$color] = $rgb = ColorService::colorToRGBString($color);
+            }
+            
+            $pixels[$pixel->getPosition()] = $colors[$color];
+        }
+        
         return array(
             'drawing' => $drawing,
+            'pixels' => $pixels,
+            'colors' => $colors,
+            'rgbColors' => ColorService::RGBStringColors(),
         );
+    }
+
+    /**
+     * @Route("/{id}/add_pixel", name="draw_add_pixel")
+     * @ParamConverter("drawing", class="CPaintDrawingBundle:Drawing")
+     * @Method("POST")
+     */
+    public function addPixelAction(Request $request, Drawing $drawing)
+    {
+        $color = $request->request->get('color');
+        $position = $request->request->get('position');
+        
+        if ($color !== null && $position !== null) {
+            $pixel = new Pixel();
+            $pixel->setColor($color);
+            $pixel->setDrawing($drawing);
+            $pixel->setPosition($position);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($pixel);
+            $em->flush();
+        } else {
+            // print error
+            $session = $this->container->get('session');
+            $session->getFlashBag()->add('error', 'Failed to add this pixel');
+        }
+            
+        return $this->redirect($this->generateUrl('draw_edit', array('id' => $drawing->getId())));
     }
 }

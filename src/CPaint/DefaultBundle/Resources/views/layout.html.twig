@@ -16,7 +16,21 @@
         <link rel="icon" type="image/x-icon" ref="{{ asset('favicon.ico') }}">
     </head>
     <body>
-        {% include 'CPaintDefaultBundle::_navbar.html.twig' %} 
+        {% include 'CPaintDefaultBundle::_navbar.html.twig' %}
+        <div class="container-fluid">
+        {% for message in app.session.flashbag.get('error') %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {% autoescape false %}{{ message }}{% endautoescape %}
+            </div>
+        {% endfor %}
+        {% for message in app.session.flashbag.get('success') %}
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {% autoescape false %}{{ message }}{% endautoescape %}
+            </div>
+        {% endfor %}
+        </div>
         {% block content %}{% endblock %}
         {% block javascripts %}
             <script type="text/javascript" src="{{ asset('bundles/cpaintdefault/js/jquery.min.js') }}"></script>

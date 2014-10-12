@@ -54,6 +54,7 @@ class Drawing
      */
     public function __construct()
     {
+        $this->createdAt = new \DateTime();
         $this->pixels = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
