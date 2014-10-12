@@ -2,6 +2,10 @@ body {
     padding-top: 70px;
 }
 
+h3 {
+    margin-top: 0px;
+}
+
 .bitmap {
     margin: 0;
     padding: 10px;
@@ -9,5 +13,6 @@ body {
 
 .bitmap img {
     width: 100%;
+    max-width: 480px;
     height: auto;
 }

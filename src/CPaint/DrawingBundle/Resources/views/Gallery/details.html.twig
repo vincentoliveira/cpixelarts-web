@@ -2,8 +2,16 @@
 {% block content %}
 <div class="container-fluid">
     <h1><a href="{{ path('gallery_index') }}" title="Back to gallery"><i class="glyphicon glyphicon-chevron-left"></i></a>Gallery: #{{ drawing.id }}</h1>
-    <div class="bitmap">
+    <div class="bitmap col-md-6">
         <img src="{{ asset('bundles/cpaintdefault/images/empty.png') }}" bitmap-url="{{ path('gallery_bitmap', {id:drawing.id}) }}" alt="" />
+    </div>
+    <div class="bitmap col-md-6">
+        <h3>Colors</h3>
+        <ul>
+            {% for id, color in colors %}
+            <li style="color:#{{ color }}">{{ id }}: #{{ color }}</li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 {% endblock %}

@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use CPaint\DrawingBundle\Entity\Drawing;
+use CPaint\DrawingBundle\Service\ColorService;
 
 /**
  * @Route("/gallery")
@@ -42,8 +43,16 @@ class GalleryController extends Controller
      */
     public function detailsAction(Drawing $drawing)
     {
+        $colors = [];
+        foreach ($drawing->getPixels() as $pixel) {
+            $color = $pixel->getColor();
+            $rgb = ColorService::colorToRGB($color);
+            $colors[$color] = sprintf("%02x%02x%02x", $rgb['r'], $rgb['g'], $rgb['b']);
+        }
+        
         return array(
             'drawing' => $drawing,
+            'colors' => $colors,
         );
     }
 
@@ -64,11 +73,8 @@ class GalleryController extends Controller
             
             if (!isset($colors[$pixel->getColor()])) {
                 $color = $pixel->getColor();
-                $r =  $color & 0xb0;
-                $g = $color & 0x1b << 4;
-                $b = ($color & 0x03) << 6;
-                
-                $colors[$color] = imagecolorallocate($bitmap, $r, $g, $b);
+                $rgb = ColorService::colorToRGB($color);
+                $colors[$color] = imagecolorallocate($bitmap, $rgb['r'], $rgb['g'], $rgb['b']);
             }
             $color = $colors[$pixel->getColor()];
             

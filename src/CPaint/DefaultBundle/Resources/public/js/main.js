@@ -1,5 +1,7 @@
 $(document).ready(function() {
     $('.bitmap').each(function(){
-        $(this).find("img").attr("src", $(this).find("img").attr("bitmap-url"));
+        if($(this).find("img").attr("bitmap-url")) {
+            $(this).find("img").attr("src", $(this).find("img").attr("bitmap-url"));
+        }
     });
 });
