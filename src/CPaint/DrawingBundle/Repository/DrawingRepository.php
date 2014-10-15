@@ -29,12 +29,21 @@ class DrawingRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('drawing');
         
-        $count = $qb->select('count(drawing)')->getQuery()->getSingleScalarResult();
+        $count = $qb->select('COUNT(drawing)')->getQuery()->getSingleScalarResult();
         
-        $qb->select('drawing');
+        $qb->select('drawing, COUNT(pixel), COUNT(DISTINCT pixel.color)');
+        $qb->leftJoin('drawing.pixels', 'pixel');
+        $qb->groupBy('drawing.id');
         $qb->setFirstResult((abs($page) - 1) * $maxResults);
         $qb->setMaxResults($maxResults);
-        $results = $qb->getQuery()->getArrayResult();
+        $rawResults = $qb->getQuery()->getArrayResult();
+        
+        $results = array();
+        foreach ($rawResults as $result) {
+            $result[0]['nb_pixels'] = $result[1];
+            $result[0]['nb_colors'] = $result[2];
+            $results[] = $result[0];
+        }
         
         return array(
             'results' => $results,
