@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new CPaint\DefaultBundle\CPaintDefaultBundle(),
             new CPaint\DrawingBundle\CPaintDrawingBundle(),
             new CPaint\ApiBundle\CPaintApiBundle(),
+            new CPaint\UserBundle\CPaintUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
