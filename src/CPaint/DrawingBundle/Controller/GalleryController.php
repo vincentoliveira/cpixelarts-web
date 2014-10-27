@@ -68,6 +68,11 @@ class GalleryController extends Controller
         $height = $drawing->getHeight();
         
         $bitmap = imagecreatetruecolor($drawing->getWidth(), $drawing->getHeight());
+        
+        // set background to white
+        $white = imagecolorallocate($bitmap, 255, 255, 255);
+        imagefill($bitmap, 0, 0, $white);
+
         foreach ($drawing->getPixels() as $pixel) {
             $y = intval($pixel->getPosition() / $width);
             $x = $pixel->getPosition() % $height;
