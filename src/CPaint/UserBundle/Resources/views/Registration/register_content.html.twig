@@ -1,0 +1,44 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="container-fluid">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Sign up with Facebook</h3>
+            </div>
+            <div class="panel-body">
+                <em>Soon</em>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Sign up with email</h3>
+            </div>
+            <div class="panel-body">
+                <form class="signup" action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
+                    <div class="form-group">
+                        {{ form_label(form.username) }}
+                        <span class="text-warning form-error">{{ form_errors(form.username) }}</span>
+                        {{ form_widget(form.username, { 'attr': {'class': 'form-control' } }) }}
+
+                        {{ form_label(form.email) }}
+                        <span class="text-warning form-error">{{ form_errors(form.email) }}</span>
+                        {{ form_widget(form.email, { 'attr': {'class': 'form-control' } }) }}
+
+                        {{ form_label(form.plainPassword.first) }}
+                        <span class="text-warning form-error">{{ form_errors(form.plainPassword.first) }}</span>
+                        {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control' } }) }}
+
+                        {{ form_label(form.plainPassword.second) }}
+                        {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control' } }) }}
+                    </div>
+                    {{ form_rest(form) }}
+                    <input type="submit" class="btn btn-primary" value="{{ 'registration.submit'|trans }}" />
+                    <p class="accept-tos">By signing up, you agree to the Terms of Service.</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

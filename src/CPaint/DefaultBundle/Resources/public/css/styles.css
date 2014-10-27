@@ -40,3 +40,9 @@ h3 {
 /** Sign in **/
 .signin .rememberme { display: inline-block; margin: 0 0 0 10px; }
 .signin .rememberme input { display: inline-block; }
+
+/** Sign up **/
+.signup .accept-tos { margin-top: 10px; font-size: 0.9em; }
+.signup .form-error { display: inline-block; float: right; font-weight: bold; }
+.signup .form-error ul { list-style: none; }
+
