@@ -20,6 +20,8 @@ class AppKernel extends Kernel
             
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            //new FOS\FacebookBundle\FOSFacebookBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             
             new CPaint\DefaultBundle\CPaintDefaultBundle(),

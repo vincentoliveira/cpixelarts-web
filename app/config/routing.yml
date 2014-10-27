@@ -22,3 +22,6 @@ drawings:
     type:     rest
     resource: CPaint\ApiBundle\Controller\DrawingsController
     prefix: /api/
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
