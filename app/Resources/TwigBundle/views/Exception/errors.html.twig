@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>An Error Occurred</title>
-</head>
-<body>
-    <h1>Oops! An Error Occurred</h1>
-</body>
-</html>
+{% extends "CPaintDefaultBundle::layout.html.twig" %}
+{% block title %}cPaint - Error{% endblock title %}
+{% block content %}
+<div class="container-fluid">
+    <h1><img src="{{ asset('bundles/cpaintdefault/images/logo.png') }}" alt="cPaint" /> <small>Oops, an error has occured!</small></h1>
+    <p>
+        <a href="{{ path('homepage') }}">Go back to homepage</a>
+    </p>
+</div>
+{% endblock %}
