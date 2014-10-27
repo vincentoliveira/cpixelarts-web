@@ -17,14 +17,23 @@ class ColorService
      */
     public static function colorToRGB($color)
     {
-        $r = ($color >> 5) << 5;
-        $g = (($color & 0x1f) >> 2) << 5;
-        $b = ($color & 0x03) << 6;
+//        $r = ($color >> 5) << 5;
+//        $g = (($color & 0x1f) >> 2) << 5;
+//        $b = ($color & 0x03) << 6;
+
+        $r = $color >> 5;
+        $rr = (($r << 6) + ($r << 3) + $r) % 256;
+        
+        $g = ($color & 0x1f) >> 2;
+        $gg = (($g << 6) + ($g << 3) + $g) % 256;
+        
+        $b = $color & 0x03;
+        $bb = ($b << 6) + ($b << 4) + ($b << 2) + $b;
         
         return array(
-            'r' => $r,
-            'g' => $g,
-            'b' => $b,
+            'r' => $rr,
+            'g' => $gg,
+            'b' => $bb,
         );
     }
     
@@ -61,8 +70,8 @@ class ColorService
      */
     public static function RGBStringColors()
     {
-        $colors = [0];
-        for ($color = 1; $color < 256; ++$color) {
+        $colors = [];
+        for ($color = 0; $color < 256; ++$color) {
             $colors[$color] = self::colorToRGBString($color);
         }
         

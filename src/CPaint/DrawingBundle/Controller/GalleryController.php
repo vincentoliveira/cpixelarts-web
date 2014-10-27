@@ -37,28 +37,7 @@ class GalleryController extends Controller
     }
 
     /**
-     * @Route("/{id}/details", name="gallery_details")
-     * @ParamConverter("drawing", class="CPaintDrawingBundle:Drawing")
-     * @Template()
-     */
-    public function detailsAction(Drawing $drawing)
-    {
-        $colors = [];
-        foreach ($drawing->getPixels() as $pixel) {
-            $color = $pixel->getColor();
-            if (!isset($colors[$color])) {
-                $colors[$color] = $rgb = ColorService::colorToRGBString($color);
-            }
-        }
-        
-        return array(
-            'drawing' => $drawing,
-            'colors' => $colors,
-        );
-    }
-
-    /**
-     * @Route("/{id}/bitmap", name="gallery_bitmap")
+     * @Route("/drawing-{id}.png", name="gallery_drawing")
      * @ParamConverter("drawing", class="CPaintDrawingBundle:Drawing")
      */
     public function bitmapAction(Drawing $drawing)

@@ -1,10 +1,16 @@
-body {
-    padding-top: 70px;
-}
+body { background-color: #4992aa; }
+h1 img { width: 128px; }
+h1 small { color: #333; }
+a { color: #0024aa; }
 
-h3 {
-    margin-top: 0px;
-}
+/** Drawing **/
+#drawing-container { margin: 50px -15px; }
+.pixel { display: block; float: left; }
+#drawing { border: 20px solid; background: white; }
+#drawing .pixel { width: 20px; height: 20px; }
+
+/** Colors **/
+.colors .pixel { width: 20px; height: 20px; margin: 1px; }
 
 .bitmap {
     margin: 0;
@@ -20,13 +26,6 @@ h3 {
 
 .edit-bitmap .pixel {
     border:1px solid #ccc;
-}
-.pixel {
-    display: block;
-    float: left;
-    width: 18px;
-    height: 18px;
-    margin: 1px;
 }
 .selected-color {
     display: block;
