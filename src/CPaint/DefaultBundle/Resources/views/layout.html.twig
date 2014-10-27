@@ -15,6 +15,7 @@
         <meta property="og:image" content="{% block image %}{{ asset('bundles/cpaintdefault/images/logo.png') }}{% endblock %}"
         <meta property="og:site_name" content="cPaint" />
         <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
+        <meta property="og:type" content="website" />
         {% endblock %}
 
         {% block stylesheets %}
