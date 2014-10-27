@@ -8,10 +8,10 @@ cpaint_default:
     type:     annotation
     prefix:   /
 
-#c_paint_user:
-#    resource: "@CPaintUserBundle/Controller/"
-#    type:     annotation
-#    prefix:   /
+c_paint_user:
+    resource: "@CPaintUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
 
 cpaint_api:
     resource: "@CPaintApiBundle/Controller/"
