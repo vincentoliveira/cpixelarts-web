@@ -36,3 +36,7 @@ h3 {
 .pixel.selected {
     border: 2px solid black;
 }
+
+/** Sign in **/
+.signin .rememberme { display: inline-block; margin: 0 0 0 10px; }
+.signin .rememberme input { display: inline-block; }

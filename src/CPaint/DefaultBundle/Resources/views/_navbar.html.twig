@@ -21,6 +21,20 @@
                     <a href="{{ path('gallery_index') }}">Gallery</a>
                 </li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li>
+                    <a href="{{ path('fos_user_security_logout') }}">Logout</a>
+                </li>
+                {% else %}
+                <li{% if path('fos_user_security_login') in currentPath%} class="active"{% endif %}>
+                    <a href="{{ path('fos_user_security_login') }}">Login</a>
+                </li>
+                <li{% if path('fos_user_registration_register') in currentPath%} class="active"{% endif %}>
+                    <a href="{{ path('fos_user_registration_register') }}">Sign up</a>
+                </li>
+                {% endif %}
+            </ul>
         </div>
     </div>
 </div>
