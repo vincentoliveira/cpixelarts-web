@@ -13,14 +13,14 @@ c_paint_user:
     type:     annotation
     prefix:   /
 
-cpaint_api:
-    resource: "@CPaintApiBundle/Controller/"
-    type:     annotation
-    prefix:   /api/
-
-drawings:
+api_default:
     type:     rest
-    resource: CPaint/ApiBundle/Controller/DrawingsController
+    resource: CPaint\ApiBundle\Controller\DefaultController
+    prefix: /api/
+    
+api_drawings:
+    type:     rest
+    resource: CPaint\ApiBundle\Controller\DrawingsController
     prefix: /api/
 
 fos_user:

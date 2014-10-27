@@ -3,7 +3,6 @@
 namespace CPaint\ApiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\View\View;
 
 class DefaultController extends Controller
@@ -12,7 +11,6 @@ class DefaultController extends Controller
      * Get current API version
      * 
      * @api
-     * @Route("/version.{_format}", defaults={ "_format" = "json" })
      */
     public function getVersionAction()
     {
