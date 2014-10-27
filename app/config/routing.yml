@@ -1,8 +1,3 @@
-c_paint_user:
-    resource: "@CPaintUserBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 cpaint_drawing:
     resource: "@CPaintDrawingBundle/Controller/"
     type:     annotation
@@ -13,6 +8,11 @@ cpaint_default:
     type:     annotation
     prefix:   /
 
+c_paint_user:
+    resource: "@CPaintUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 cpaint_api:
     resource: "@CPaintApiBundle/Controller/"
     type:     annotation
@@ -20,7 +20,7 @@ cpaint_api:
 
 drawings:
     type:     rest
-    resource: CPaint\ApiBundle\Controller\DrawingsController
+    resource: CPaint/ApiBundle/Controller/DrawingsController
     prefix: /api/
 
 fos_user:
