@@ -9,12 +9,12 @@
         <meta name="description" content="{% block description %}cPaint is the first collaborative Pixel Art app. With cPaint, you can create or edit drawings, share it and much more. For more information, visit {{ url('homepage') }}{% endblock %}"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
-        <meta name="fb:app_id" content="323063997879046" />
-        <meta name="og:title" content="{{ block('title') }}" />
-        <meta name="og:description" content="{{ block('description') }}" />
-        <meta name="og:image" content="{% block image %}{{ asset('bundles/cpaintdefault/images/logo.png') }}{% endblock %}"
-        <meta name="og:site_name" content="cPaint" />
-        <meta name="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
+        <meta property="fb:app_id" content="323063997879046" />
+        <meta property="og:title" content="{{ block('title') }}" />
+        <meta property="og:description" content="{{ block('description') }}" />
+        <meta property="og:image" content="{% block image %}{{ asset('bundles/cpaintdefault/images/logo.png') }}{% endblock %}"
+        <meta property="og:site_name" content="cPaint" />
+        <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
         {% endblock %}
 
         {% block stylesheets %}
