@@ -1,8 +1,10 @@
 {% extends "CPaintDefaultBundle::layout.html.twig" %}
 {% block title %}cPaint - Drawing #{{ drawing.id }}{% endblock title %}
+{% block image %}{{ url('gallery_drawing', {id:drawing.id}) }}{% endblock %}
 {% block content %}
 <div class="container-fluid">
     <h1>#{{ drawing.id }} <small><a href="{{ path('gallery_drawing', {id:drawing.id}) }}">View the drawing</a></small></h1>
+    <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/"></div>
     {% include "CPaintDrawingBundle:Draw:_drawing.html.twig" %}
     <form id="addPixelForm" action="{{ path('draw_add_pixel', {id:drawing.id}) }}" method="POST">
         <input type="hidden" name="color" value="{{ currentColor }}"/>

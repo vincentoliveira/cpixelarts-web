@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{% block title %}cPaint - The collaborative Pixel Art app{% endblock %}</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>{% block title %}cPaint - The first collaborative Pixel Art app{% endblock %}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
         {% block meta %}
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="title" content="{{ block('title') }}"/>
+        <meta name="description" content="{% block description %}cPaint is the first collaborative Pixel Art app. With cPaint, you can create or edit drawings, share it and much more. For more information, visit {{ url('homepage') }}{% endblock %}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <meta name="fb:app_id" content="323063997879046" />
+        <meta name="og:title" content="{{ block('title') }}" />
+        <meta name="og:description" content="{{ block('description') }}" />
+        <meta name="og:image" content="{% block image %}{{ asset('bundles/cpaintdefault/images/logo.png') }}{% endblock %}"
+        <meta name="og:site_name" content="cPaint" />
+        <meta name="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
         {% endblock %}
 
         {% block stylesheets %}
@@ -38,6 +48,7 @@
             <script type="text/javascript" src="{{ asset('bundles/cpaintdefault/js/spin.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/cpaintdefault/js/main.js') }}"></script>
             <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-44614143-5','auto');ga('send','pageview');</script>
+            <script>window.fbAsyncInit=function(){FB.init({appId:'323063997879046',xfbml:true,version:'v2.1'});};(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return;}js=d.createElement(s);js.id=id;js.src="//connect.facebook.net/en_US/sdk.js";fjs.parentNode.insertBefore(js,fjs);}(document,'script','facebook-jssdk'));</script>
         {% endblock %}
     </body>
 </html>
