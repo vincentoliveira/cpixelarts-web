@@ -3,8 +3,8 @@
 <div class="container-fluid">
     <h1>Gallery</h1>
     {% for drawing in drawings %}
-    <a class="bitmap col-xs-6 col-sm-4 col-md-3 col-lg-3" href="{{ path('gallery_details', {id:drawing.id}) }}">
-        <img src="{{ asset('bundles/cpaintdefault/images/empty.png') }}" bitmap-url="{{ path('gallery_bitmap', {id:drawing.id}) }}" alt="" />
+    <a class="bitmap col-xs-6 col-sm-4 col-md-3 col-lg-3" href="{{ path('draw_edit', {id:drawing.id}) }}">
+        <img src="{{ asset('bundles/cpaintdefault/images/empty.png') }}" bitmap-url="{{ path('gallery_drawing', {id:drawing.id}) }}" alt="" />
     </a>
     {% endfor %}
     <div class="clearfix"></div>

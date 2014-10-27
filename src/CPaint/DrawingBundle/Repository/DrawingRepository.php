@@ -17,7 +17,10 @@ class DrawingRepository extends EntityRepository
      */
     public function findAllQuery()
     {
-        return $this->createQueryBuilder('drawing')->getQuery();
+        return $this->createQueryBuilder('drawing')
+                ->leftJoin('drawing.pixels', 'pixel')
+                ->orderBy('drawing.id', 'DESC')
+                ->getQuery();
     }
 
     /**
@@ -34,6 +37,7 @@ class DrawingRepository extends EntityRepository
         $qb->select('drawing, COUNT(pixel), COUNT(DISTINCT pixel.color)');
         $qb->leftJoin('drawing.pixels', 'pixel');
         $qb->groupBy('drawing.id');
+        $qb->orderBy('drawing.id', 'DESC');
         $qb->setFirstResult((abs($page) - 1) * $maxResults);
         $qb->setMaxResults($maxResults);
         $rawResults = $qb->getQuery()->getArrayResult();

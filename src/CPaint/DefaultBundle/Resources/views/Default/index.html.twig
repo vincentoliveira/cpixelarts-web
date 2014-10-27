@@ -1,6 +1,13 @@
 {% extends "CPaintDefaultBundle::layout.html.twig" %}
 {% block content %}
 <div class="container-fluid">
-    <h1>cPaint <small>The collaborative pixel drawing</small></h1>
+    <h1><img src="{{ asset('bundles/cpaintdefault/images/logo.png') }}" alt="cPaint" /> <small>The first collaborative <strong>Pixel Art</strong> app</small></h1>
+    {% include "CPaintDrawingBundle:Draw:_drawing.html.twig" %}
+    <form id="addPixelForm" action="{{ path('draw_new') }}" method="POST">
+        <input type="hidden" name="width" value="{{ drawing.width }}" />
+        <input type="hidden" name="height" value="{{ drawing.height }}" />
+        <input type="hidden" name="color" value="{{ currentColor }}"/>
+        <input type="hidden" name="position" value="-1" />
+    </form>
 </div>
-{% endblock %}
+{% endblock content %}

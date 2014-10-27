@@ -16,7 +16,6 @@
         <link rel="icon" type="image/x-icon" ref="{{ asset('favicon.ico') }}">
     </head>
     <body>
-        {% include 'CPaintDefaultBundle::_navbar.html.twig' %}
         <div class="container-fluid">
         {% for message in app.session.flashbag.get('error') %}
             <div class="alert alert-danger">
@@ -32,10 +31,13 @@
         {% endfor %}
         </div>
         {% block content %}{% endblock %}
+        {% include 'CPaintDefaultBundle::_footer.html.twig' %}
         {% block javascripts %}
             <script type="text/javascript" src="{{ asset('bundles/cpaintdefault/js/jquery.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/cpaintdefault/js/bootstrap.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/cpaintdefault/js/spin.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/cpaintdefault/js/main.js') }}"></script>
+            <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-44614143-5','auto');ga('send','pageview');</script>
         {% endblock %}
     </body>
 </html>
