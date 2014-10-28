@@ -1,9 +1,24 @@
 {% extends "CPaintDefaultBundle::layout.html.twig" %}
-{% block title %}cPaint - Drawing #{{ drawing.id }}{% endblock title %}
+{% block title %}cPaint - Drawing {{ drawing.title }}{% endblock title %}
 {% block image %}{{ url('gallery_drawing', {id:drawing.id}) }}{% endblock %}
 {% block content %}
 <div class="container-fluid">
-    <h1><img src="{{ asset('bundles/cpaintdefault/images/logo.png') }}" alt="cPaint" /> <small>#{{ drawing.id }} <a href="{{ path('gallery_drawing', {id:drawing.id}) }}"><em>Download image</em></a></small></h1>
+    <h1>
+        <img src="{{ asset('bundles/cpaintdefault/images/logo.png') }}" alt="cPaint" /> 
+        <small>
+            {{ drawing.title }} 
+            <span class="separator">·</span>
+            {% if drawing.title == "#" ~ drawing.id %}
+            <a class="name-it-link" href="#"><em>Name it</em></a>
+            <form class="name-it-form hidden" method="POST" action="{{ path('draw_set_title', {id:drawing.id}) }}">
+                <input type="text" name="title" placeholder="Name this drawing" />
+                <button type="submit" class="btn btn-default">Go</button>
+            </form>
+            <span class="separator">·</span>
+            {% endif %}
+            <a href="{{ path('gallery_drawing', {id:drawing.id}) }}"><em>Download image</em></a>
+        </small>
+    </h1>
     <div class="sharing">
         <div class="facebook fb-share-button" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
         <a href="https://twitter.com/share" class="twitter-share-button" data-via="cPaintApp">Tweet</a>

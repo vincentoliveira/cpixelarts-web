@@ -32,10 +32,16 @@ $(document).ready(function() {
         $("#addPixelForm").submit();
     });
     
-    
+    // load bitmap
     $('.bitmap').each(function() {
         if ($(this).find("img").attr("bitmap-url")) {
             $(this).find("img").attr("src", $(this).find("img").attr("bitmap-url"));
         }
+    });
+    
+    // set title
+    $('.name-it-link').click(function(e) {
+        $(this).hide();
+        $('.name-it-form').removeClass('hidden').show();
     });
 });

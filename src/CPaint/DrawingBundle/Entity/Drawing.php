@@ -95,6 +95,9 @@ class Drawing
      */
     public function getTitle()
     {
+        if (empty($this->title) && isset($this->id)) {
+            return "#" . $this->id;
+        }
         return $this->title;
     }
 

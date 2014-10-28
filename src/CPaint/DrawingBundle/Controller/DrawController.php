@@ -107,6 +107,25 @@ class DrawController extends Controller
     }
 
     /**
+     * @Route("/{id}/set_title", name="draw_set_title")
+     * @ParamConverter("drawing", class="CPaintDrawingBundle:Drawing")
+     * @Method("POST")
+     */
+    public function setTitleAction(Request $request, Drawing $drawing)
+    {
+        $title = $request->request->get('title', null);
+        
+        if ($title) {
+            $drawing->setTitle($title);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($drawing);
+            $em->flush();
+        }
+            
+        return $this->redirect($this->generateUrl('draw_edit', array('id' => $drawing->getId())));
+    }
+
+    /**
      * @Route("/{id}/add_pixel", name="draw_add_pixel")
      * @ParamConverter("drawing", class="CPaintDrawingBundle:Drawing")
      * @Method("POST")
