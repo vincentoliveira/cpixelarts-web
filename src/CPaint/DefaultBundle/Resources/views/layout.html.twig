@@ -2,13 +2,11 @@
 <html>
     <head>
         <title>{% block title %}cPaint - The first collaborative Pixel Art app{% endblock %}</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
         {% block meta %}
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="title" content="{{ block('title') }}"/>
         <meta name="description" content="{% block description %}cPaint is the first collaborative Pixel Art app. With cPaint, you can create or edit drawings, share it and much more. For more information, visit {{ url('homepage') }}{% endblock %}"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        
         <meta property="fb:app_id" content="323063997879046" />
         <meta property="og:title" content="{{ block('title') }}" />
         <meta property="og:description" content="{{ block('description') }}" />
@@ -16,11 +14,12 @@
         <meta property="og:site_name" content="cPaint" />
         <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
         <meta property="og:type" content="website" />
-        
-        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:card" content="photophoto" />
+        <meta name="twitter:site" content="@cPaintApp" />
         <meta name="twitter:title" content="{{ block('title') }}" />
         <meta name="twitter:description" content="{{ block('description') }}" />
         <meta name="twitter:image" content="{{ block('image') }}" />
+        <meta name="twitter:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
         {% endblock %}
 
         {% block stylesheets %}
