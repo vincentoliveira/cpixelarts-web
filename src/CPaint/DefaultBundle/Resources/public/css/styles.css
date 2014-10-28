@@ -1,8 +1,13 @@
-body { background-color: #4992aa; }
+body { background-color: #4992aa; color: #72B3C8; }
+h1 { color: #156883; }
 h1 img { width: 128px; }
-h1 small { color: #333; }
-a { color: #0024aa; }
-
+h1 small { display: inline-block; vertical-align: bottom; color: #A7D5E4; }
+h1 small em { font-size: 0.8em; }
+a { color: #A7D5E4; }
+a:hover { color: #156883; }
+#main-menu { margin: 20px 20px 0; float: right; list-style: none; }
+#main-menu li { display: inline-block; }
+#main-menu li:hover { background-color: #A7D5E4; }
 footer { margin: 50px 0; }
 
 /** Drawing **/

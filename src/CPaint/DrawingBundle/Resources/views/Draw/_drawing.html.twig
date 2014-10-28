@@ -1,10 +1,4 @@
 <div id="drawing-container" class="row">
-    <div class="colors col-md-3 visible-sm visible-xs">
-        {% for k, pixel in rgbColors %}
-            <a href="#" class="pixel color{% if currentColor == k %} selected-color{% endif %}" data-id="{{ k }}" style="background-color:#{{ pixel }}">&nbsp;</a>
-        {% endfor %}
-        <div class="clearfix"></div>
-    </div>
     <div class="col-md-9">
         <div id="drawing" class="edit-bitmap" drawing-width="{{ drawing.width }}" drawing-height="{{ drawing.height }}" style="border-color:#{{ rgbColors[currentColor] }}">
             {% for k, pixel in pixels %}
@@ -18,7 +12,7 @@
             <div class="clearfix"></div>
         </div>
     </div>
-    <div class="colors col-md-3 hidden-sm hidden-xs">
+    <div class="colors col-md-3">
         {% for k, pixel in rgbColors %}
             <a href="#" class="pixel color{% if currentColor == k %} selected-color{% endif %}" data-id="{{ k }}" style="background-color:#{{ pixel }}">&nbsp;</a>
         {% endfor %}

@@ -37,7 +37,7 @@ class GalleryController extends Controller
     }
 
     /**
-     * @Route("/drawing-{id}.png", name="gallery_drawing")
+     * @Route("/drawing-{id}.gif", name="gallery_drawing")
      * @ParamConverter("drawing", class="CPaintDrawingBundle:Drawing")
      */
     public function bitmapAction(Drawing $drawing)
@@ -46,15 +46,15 @@ class GalleryController extends Controller
         $width = $drawing->getWidth();
         $height = $drawing->getHeight();
         
-        $bitmap = imagecreatetruecolor($drawing->getWidth(), $drawing->getHeight());
+        $bitmap = imagecreatetruecolor(2 * $width, 2 * $height);
         
         // set background to white
         $white = imagecolorallocate($bitmap, 255, 255, 255);
         imagefill($bitmap, 0, 0, $white);
 
         foreach ($drawing->getPixels() as $pixel) {
-            $y = intval($pixel->getPosition() / $width);
-            $x = $pixel->getPosition() % $height;
+            $y = 2 * intval($pixel->getPosition() / $width);
+            $x = 2 * ($pixel->getPosition() % $height);
             
             $color = $pixel->getColor();
             if (!isset($colors[$color])) {
@@ -63,14 +63,20 @@ class GalleryController extends Controller
             }
             
             imagesetpixel($bitmap, $x, $y, $colors[$color]);
+            imagesetpixel($bitmap, $x + 1, $y, $colors[$color]);
+            imagesetpixel($bitmap, $x, $y + 1, $colors[$color]);
+            imagesetpixel($bitmap, $x + 1, $y + 1, $colors[$color]);
         }
         $tmpfname = tempnam("/tmp", "cpaint");
-        imagepng($bitmap, $tmpfname);
+        //imagepng($bitmap, $tmpfname);
+        imagegif($bitmap, $tmpfname);
         $bitmapContent = file_get_contents($tmpfname);
 
         $response = new Response($bitmapContent);
         $response->headers->set('Content-Type', 'image/png');
 
+        unlink($tmpfname);
+        
         return $response;
     }
 

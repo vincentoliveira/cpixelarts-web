@@ -45,6 +45,7 @@
             </div>
         {% endfor %}
         </div>
+        {% include "CPaintDrawingBundle:Draw:_menu.html.twig" %}
         {% block content %}{% endblock %}
         {% include 'CPaintDefaultBundle::_footer.html.twig' %}
         {% block javascripts %}
