@@ -12,14 +12,14 @@
         <meta property="og:description" content="{{ block('description') }}" />
         <meta property="og:image" content="{% block image %}{{ asset('bundles/cpaintdefault/images/logo.png') }}{% endblock %}"
         <meta property="og:site_name" content="cPaint" />
-        <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
+        <meta property="og:url" content="{% block url %}{{ url('homepage') }}{% endblock url %}" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="photo" />
         <meta name="twitter:site" content="@cPaintApp" />
         <meta name="twitter:title" content="{{ block('title') }}" />
         <meta name="twitter:description" content="{{ block('description') }}" />
         <meta name="twitter:image" content="{{ block('image') }}" />
-        <meta name="twitter:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" />
+        <meta name="twitter:url" content="{{ block('url') }}" />
         {% endblock %}
 
         {% block stylesheets %}
@@ -45,7 +45,7 @@
             </div>
         {% endfor %}
         </div>
-        {% include "CPaintDrawingBundle:Draw:_menu.html.twig" %}
+        {% include "CPaintDefaultBundle::_menu.html.twig" %}
         {% block content %}{% endblock %}
         {% include 'CPaintDefaultBundle::_footer.html.twig' %}
         {% block javascripts %}

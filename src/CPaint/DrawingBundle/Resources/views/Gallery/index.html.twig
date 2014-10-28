@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <h1><img src="{{ asset('bundles/cpaintdefault/images/logo.png') }}" alt="cPaint" /> <small>Gallery</small></h1>
     {% for drawing in drawings %}
-    <a class="bitmap col-xs-6 col-sm-4 col-md-3 col-lg-3" href="{{ path('draw_edit', {id:drawing.id}) }}">
+    <a class="bitmap col-xs-6 col-sm-4 col-md-3 col-lg-3" href="{{ path('drawing_edit', {id:drawing.id}) }}">
         <img src="{{ asset('bundles/cpaintdefault/images/empty.png') }}" bitmap-url="{{ path('gallery_drawing', {id:drawing.id}) }}" alt="" />
     </a>
     {% endfor %}

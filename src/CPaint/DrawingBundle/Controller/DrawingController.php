@@ -10,42 +10,47 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CPaint\DrawingBundle\Entity\Drawing;
 use CPaint\DrawingBundle\Entity\Pixel;
-use CPaint\DrawingBundle\Form\DrawingType;
 use CPaint\DrawingBundle\Service\ColorService;
 
 /**
- * Draw Controller
+ * Drawing Controller
  * 
- * @Route("/draw")
+ * @Route("/drawing")
  */
-class DrawController extends Controller
+class DrawingController extends Controller
 {
-
-//    /**
-//     * @Route("/", name="draw_index")
-//     * @Template()
-//     */
-//    public function indexAction()
-//    {
-//        $em = $this->getDoctrine()->getManager();
-//        $repo = $em->getRepository('CPaintDrawingBundle:Drawing');
-//        $query = $repo->findAllQuery();
-//
-//        $paginator = $this->get('knp_paginator');
-//        $page = $this->get('request')->query->get('page', 1);
-//        $maxResults = 7;
-//        $drawings = $paginator->paginate($query, $page, $maxResults);
-//
-//        return array(
-//            'drawings' => $drawings,
-//        );
-//    }
-//    
+    
     /**
-     * @Route("/new", name="draw_new")
+     * @Route("/new", name="drawing_new")
      * @Method("POST")
      */
     public function newAction(Request $request)
+    {
+        $width = $request->request->get('width', 16);
+        $height = $request->request->get('height', $width);
+        
+        $drawing = new Drawing();
+        $drawing->setCreatedAt(new \DateTime());
+        $drawing->setHeight($height);
+        $drawing->setWidth($width);
+        
+        $colors = [];
+        $pixels = array_fill(0, $drawing->getWidth() * $drawing->getHeight(), false);
+        
+        return array(
+            'drawing' => $drawing,
+            'pixels' => $pixels,
+            'colors' => $colors,
+            'currentColor' => rand(0, 255),
+            'rgbColors' => ColorService::RGBStringColors(),
+        );
+    }
+
+    /**
+     * @Route("/create", name="drawing_create")
+     * @Method("POST")
+     */
+    public function createAction(Request $request)
     {
         $width = $request->request->get('width', -1);
         $height = $request->request->get('height', -1);
@@ -73,11 +78,21 @@ class DrawController extends Controller
             $session->getFlashBag()->add('error', 'Failed to add this pixel');
         }
 
-        return $this->redirect($this->generateUrl('draw_edit', array('id' => $drawing->getId(), 'color' => $color)));
+        return $this->redirect($this->generateUrl('drawing_edit', array('id' => $drawing->getId(), 'color' => $color)));
     }
 
     /**
-     * @Route("/{id}/edit", name="draw_edit")
+     * @Route("/{id}", name="drawing_show")
+     */
+    public function showAction($id)
+    {
+        return $this->forward('CPaintDrawingBundle:Drawing:edit', array(
+            'id' => $id,
+        ));
+    }
+
+    /**
+     * @Route("/{id}/edit", name="drawing_edit")
      * @ParamConverter("drawing", class="CPaintDrawingBundle:Drawing")
      * @Template()
      */
@@ -107,7 +122,7 @@ class DrawController extends Controller
     }
 
     /**
-     * @Route("/{id}/set_title", name="draw_set_title")
+     * @Route("/{id}/set_title", name="drawing_set_title")
      * @ParamConverter("drawing", class="CPaintDrawingBundle:Drawing")
      * @Method("POST")
      */
@@ -122,11 +137,11 @@ class DrawController extends Controller
             $em->flush();
         }
             
-        return $this->redirect($this->generateUrl('draw_edit', array('id' => $drawing->getId())));
+        return $this->redirect($this->generateUrl('drawing_edit', array('id' => $drawing->getId())));
     }
 
     /**
-     * @Route("/{id}/add_pixel", name="draw_add_pixel")
+     * @Route("/{id}/add_pixel", name="drawing_add_pixel")
      * @ParamConverter("drawing", class="CPaintDrawingBundle:Drawing")
      * @Method("POST")
      */
@@ -146,7 +161,7 @@ class DrawController extends Controller
             $session->getFlashBag()->add('error', 'Failed to add this pixel');
         }
 
-        return $this->redirect($this->generateUrl('draw_edit', array('id' => $drawing->getId(), 'color' => $color)));
+        return $this->redirect($this->generateUrl('drawing_edit', array('id' => $drawing->getId(), 'color' => $color)));
     }
 
     /**
