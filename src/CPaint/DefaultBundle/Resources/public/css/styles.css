@@ -10,6 +10,8 @@ footer { margin: 50px 0; }
 .pixel { display: block; float: left; }
 #drawing { border: 20px solid; background: white; }
 #drawing .pixel { width: 20px; height: 20px; }
+.sharing iframe { vertical-align: middle; height: 22px !important; }
+.hcount #count { min-width: 15px; }
 
 /** Colors **/
 .colors .pixel { width: 20px; height: 20px; margin: 1px; }

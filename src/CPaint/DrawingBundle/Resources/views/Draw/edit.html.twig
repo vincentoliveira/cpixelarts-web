@@ -4,7 +4,10 @@
 {% block content %}
 <div class="container-fluid">
     <h1>#{{ drawing.id }} <small><a href="{{ path('gallery_drawing', {id:drawing.id}) }}">View the drawing</a></small></h1>
-    <div class="fb-share-button"></div>
+    <div class="sharing">
+        <div class="facebook fb-share-button" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="cPaintApp">Tweet</a>
+    </div>
     {% include "CPaintDrawingBundle:Draw:_drawing.html.twig" %}
     <form id="addPixelForm" action="{{ path('draw_add_pixel', {id:drawing.id}) }}" method="POST">
         <input type="hidden" name="color" value="{{ currentColor }}"/>
