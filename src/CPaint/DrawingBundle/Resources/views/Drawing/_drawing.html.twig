@@ -7,7 +7,7 @@
                 {% if pixel %}
                 <div class="pixel" style="border-color:#{{ rgbColors[currentColor] }}; background-color:#{{ pixel}}">&nbsp;</div>
                 {% else %}
-                <a href="#" style="border-color:#{{ rgbColors[currentColor] }}" data-toggle="modal" data-target="#colorsModal" class="pixel empty-pixel" data-pos="{{ k }}">&nbsp;</a>
+                <div class="pixel empty-pixel" style="border-color:#{{ rgbColors[currentColor] }}" data-pos="{{ k }}">&nbsp;</div>
                 {% endif %}
             {% endfor %}
             </div>

@@ -25,7 +25,7 @@
         <a href="https://twitter.com/share" class="twitter-share-button" data-via="cPaintApp">Tweet</a>
     </div>
     {% include "CPaintDrawingBundle:Drawing:_drawing.html.twig" %}
-    <form id="addPixelForm" action="{{ path('drawing_add_pixel', {id:drawing.id}) }}" method="POST">
+    <form id="addPixelForm" action="{{ path('post_drawing_pixels', {id:drawing.id}) }}" method="POST" reload="false">
         <input type="hidden" name="color" value="{{ currentColor }}"/>
         <input type="hidden" name="position" value="-1" />
     </form>

@@ -6,7 +6,7 @@
         <small>The first collaborative <strong>Pixel Art</strong> app</small>
     </h1>
     {% include "CPaintDrawingBundle:Drawing:_drawing.html.twig" %}
-    <form id="addPixelForm" action="{{ path('drawing_create') }}" method="POST">
+    <form id="addPixelForm" action="{{ path('drawing_create') }}" method="POST" reload="true">
         <input type="hidden" name="width" value="{{ drawing.width }}" />
         <input type="hidden" name="height" value="{{ drawing.height }}" />
         <input type="hidden" name="color" value="{{ currentColor }}"/>
