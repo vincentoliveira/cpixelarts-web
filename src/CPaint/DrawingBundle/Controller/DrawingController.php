@@ -113,7 +113,7 @@ class DrawingController extends Controller
             'drawing' => $drawing,
             'pixels' => $pixels,
             'colors' => $colors,
-            'currentColor' => $currentColor,
+            'currentColor' => $currentColor % 256,
             'rgbColors' => ColorService::RGBStringColors(),
         );
     }
