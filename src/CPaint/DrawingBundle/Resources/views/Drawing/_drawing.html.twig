@@ -1,16 +1,18 @@
 <div id="drawing-container" class="row">
     <div class="col-md-9">
-        <div id="drawing" class="edit-bitmap" drawing-width="{{ drawing.width }}" drawing-height="{{ drawing.height }}" style="border-color:#{{ rgbColors[currentColor] }}">
+        <div id="drawing" class="edit-bitmap" drawing-width="{{ drawing.width }}" drawing-height="{{ drawing.height }}">
+            <div class="clearfix line">
             {% for k, pixel in pixels %}
-                {% if k % drawing.width == 0 %}<div class="clearfix"></div>{% endif %}
+                {% if k % drawing.width == 0 and not loop.first %}</div><div class="clearfix line">{% endif %}
                 {% if pixel %}
-                <div class="pixel" style="background-color:#{{ pixel}}">&nbsp;</div>
+                <div class="pixel" style="border-color:#{{ rgbColors[currentColor] }}; background-color:#{{ pixel}}">&nbsp;</div>
                 {% else %}
-                <a href="#" data-toggle="modal" data-target="#colorsModal" class="pixel empty-pixel" data-pos="{{ k }}">&nbsp;</a>
+                <a href="#" style="border-color:#{{ rgbColors[currentColor] }}" data-toggle="modal" data-target="#colorsModal" class="pixel empty-pixel" data-pos="{{ k }}">&nbsp;</a>
                 {% endif %}
             {% endfor %}
-            <div class="clearfix"></div>
+            </div>
         </div>
+        <div class="clearfix"></div>
     </div>
     <div class="colors col-md-3">
         {% for k, pixel in rgbColors %}

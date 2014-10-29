@@ -16,7 +16,12 @@ footer { margin: 50px 0; }
 /** Drawing **/
 #drawing-container { margin: 50px -15px; }
 .pixel { display: block; float: left; }
-#drawing { border: 20px solid; background: white; }
+#drawing { }
+#drawing .line:first-child .pixel { border-top: 20px solid white; }
+#drawing .line:last-child .pixel { border-bottom: 20px solid white; }
+#drawing .line .pixel:first-child { border-left: 20px solid white; }
+#drawing .line .pixel:last-child { border-right: 20px solid white; }
+
 #drawing .pixel { width: 20px; height: 20px; }
 .sharing iframe { vertical-align: middle; height: 22px !important; }
 .hcount #count { min-width: 15px; }
