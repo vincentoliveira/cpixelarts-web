@@ -149,7 +149,8 @@ class DrawingController extends Controller
         $color = $request->request->get('color');
         $position = $request->request->get('position');
 
-        $pixel = $this->addPixelToDrawing($drawing, $color, $position);
+        $service = new DrawingService();
+        $pixel = $service->addPixelToDrawing($drawing, $color, $position);
         if ($pixel !== null) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($pixel);
@@ -161,29 +162,6 @@ class DrawingController extends Controller
         }
 
         return $this->redirect($this->generateUrl('drawing_edit', array('id' => $drawing->getId(), 'color' => $color)));
-    }
-
-    /**
-     * Add pixel to a drawing. Return null on error
-     * 
-     * @param \CPaint\DrawingBundle\Entity\Drawing $drawing
-     * @param type $color
-     * @param type $position
-     * @return \CPaint\DrawingBundle\Entity\Pixel|null
-     */
-    private function addPixelToDrawing(Drawing $drawing, $color, $position)
-    {
-        if ($drawing === null ||  $color < 0 || $color >= 256 || $position < 0 || 
-                $position >= $drawing->getWidth() * $drawing->getHeight()) {
-            return null;
-        }
-        
-        $pixel = new Pixel();
-        $pixel->setColor($color);
-        $pixel->setDrawing($drawing);
-        $pixel->setPosition($position);
-        
-        return $pixel;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace CPaint\DrawingBundle\Service;
 
 use CPaint\DrawingBundle\Entity\Drawing;
+use CPaint\DrawingBundle\Entity\Pixel;
 
 /**
  * Description of DrawingService
@@ -91,6 +92,35 @@ class DrawingService
     public function canonicalizeTitle($str)
     {
         return preg_replace('/[^A-Za-z0-9-]+/', '-', $this->removeAccents($str));
+    }
+
+    /**
+     * Add pixel to a drawing. Return null on error
+     * 
+     * @param \CPaint\DrawingBundle\Entity\Drawing $drawing
+     * @param type $color
+     * @param type $position
+     * @return \CPaint\DrawingBundle\Entity\Pixel|null
+     */
+    public function addPixelToDrawing(Drawing $drawing, $color, $position)
+    {
+        if ($drawing === null || $color < 0 || $color >= 256 || $position < 0 || 
+                $position >= $drawing->getWidth() * $drawing->getHeight()) {
+            return null;
+        }
+        
+        foreach ($drawing->getPixels() as $pixel) {
+            if ($pixel->getPosition() == $position) {
+                return null;
+            }
+        }
+        
+        $pixel = new Pixel();
+        $pixel->setColor($color);
+        $pixel->setDrawing($drawing);
+        $pixel->setPosition($position);
+        
+        return $pixel;
     }
 
     protected function removeAccents($str, $charset = 'utf-8')
