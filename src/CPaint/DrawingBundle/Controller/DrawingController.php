@@ -24,7 +24,7 @@ class DrawingController extends Controller
      * @Route("/new_{width}x{height}", name="drawing_new")
      * @Template()
      */
-    public function newAction(Request $request, $width = 16, $height = 16)
+    public function newAction(Request $request, $width = 0, $height = 0)
     {
         $allowedSizes = [8, 16, 32, 64];
         if (!in_array($width, $allowedSizes)) {
@@ -183,7 +183,7 @@ class DrawingController extends Controller
     }
 
     /**
-     * @Route("/{id}/show", name="drawing_show")
+     * @Route("/{id}", name="drawing_show")
      */
     public function showAction($id)
     {
