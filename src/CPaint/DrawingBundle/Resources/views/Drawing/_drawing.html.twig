@@ -16,7 +16,7 @@
     </div>
     <div class="colors col-md-3">
         {% for k, pixel in rgbColors %}
-            <a href="#" class="pixel color{% if currentColor == k %} selected-color{% endif %}" data-id="{{ k }}" style="background-color:#{{ pixel }}">&nbsp;</a>
+            <a href="#" class="pixel color{% if currentColor == k %} selected{% endif %}" data-id="{{ k }}" style="background-color:#{{ pixel }}">&nbsp;</a>
         {% endfor %}
     </div>
 </div>

@@ -27,7 +27,18 @@ $(document).ready(function() {
         $(this).addClass("selected");
         $("#drawing").find(".pixel").css("border-color", $(this).css("background-color"));
         $('input[name="color"]').val($(this).attr("data-id"));
+        
+        // if selected color is 42 => set background to white
+        if ($(this).attr("data-id") == 42) {
+            $('body').css('background-color', '#fff');
+        } else {
+            $('body').css('background-color', '#72B3C8');
+        }
     });
+    // if selected color is 42 => set background to white
+    if ($('.color.selected').attr("data-id") == 42) {
+        $('body').css('background-color', '#fff');
+    }
     
     // add a pixel
     $(".empty-pixel").click(function(e) {
