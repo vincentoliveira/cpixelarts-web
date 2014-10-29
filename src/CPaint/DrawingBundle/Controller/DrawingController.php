@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CPaint\DrawingBundle\Entity\Drawing;
 use CPaint\DrawingBundle\Entity\Pixel;
 use CPaint\DrawingBundle\Service\ColorService;
+use CPaint\DrawingBundle\Service\DrawingService;
 
 /**
  * Drawing Controller
@@ -126,7 +127,10 @@ class DrawingController extends Controller
         $title = $request->request->get('title', null);
         
         if ($title) {
+            $canonicalizer = new DrawingService();
+            $titleCanonical = $canonicalizer->canonicalizeTitle($title);
             $drawing->setTitle($title);
+            $drawing->setTitleCanonical($titleCanonical);
             $em = $this->getDoctrine()->getManager();
             $em->persist($drawing);
             $em->flush();
@@ -183,12 +187,21 @@ class DrawingController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="drawing_show")
+     * @Route("/{slug}", name="drawing_show")
      */
-    public function showAction($id)
+    public function showAction($slug)
     {
+        $repo = $this->getDoctrine()->getRepository("CPaintDrawingBundle:Drawing");
+        $drawing = $repo->findOneByTitleCanonical($slug);
+        if ($drawing === null) {
+            $drawing = $repo->find($slug);
+            if ($drawing === null) {
+                return $this->redirect($this->generateUrl('homepage'));
+            }
+        }
+        
         return $this->forward('CPaintDrawingBundle:Drawing:edit', array(
-            'id' => $id,
+            'drawing' => $drawing,
         ));
     }
 

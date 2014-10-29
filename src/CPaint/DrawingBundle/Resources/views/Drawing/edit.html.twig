@@ -1,13 +1,13 @@
 {% extends "CPaintDefaultBundle::layout.html.twig" %}
 {% block title %}cPaint - {{ drawing.title }}{% endblock title %}
 {% block image %}{{ url('gallery_drawing_width', {id:drawing.id, width:320}) }}{% endblock %}
-{% block url %}{{ url('drawing_show', {id:drawing.id}) }}{% endblock %}
+{% block url %}{{ url('drawing_show', {slug:drawing.titleCanonical}) }}{% endblock %}
 {% block content %}
 <div class="container-fluid">
     <h1>
         <img src="{{ asset('bundles/cpaintdefault/images/logo.png') }}" alt="cPaint" /> 
         <small>
-            {{ drawing.title }} 
+            {{ drawing.title }}
             <span class="separator">·</span>
             {% if drawing.title == "#" ~ drawing.id %}
             <a class="name-it-link" href="#"><em>Name it</em></a>
@@ -17,7 +17,7 @@
             </form>
             <span class="separator">·</span>
             {% endif %}
-            <a href="{{ path('gallery_drawing', {id:drawing.id}) }}"><em>Download image</em></a>
+            <a href="{{ block('image') }}"><em>Download image</em></a>
         </small>
     </h1>
     <div class="sharing">

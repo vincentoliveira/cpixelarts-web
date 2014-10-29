@@ -22,11 +22,18 @@ class Drawing
     private $id;
     
     /**
-     * @var integer
+     * @var String
      *
-     * @ORM\Column(name="title", type="string", nullable=true)
+     * @ORM\Column(name="title", type="string", length=31, nullable=true)
      */
     private $title;
+    
+    /**
+     * @var String
+     *
+     * @ORM\Column(name="title_canonical", type="string", length=31, nullable=true)
+     */
+    private $titleCanonical;
     
     /**
      * @var \DateTime
@@ -99,6 +106,32 @@ class Drawing
             return "#" . $this->id;
         }
         return $this->title;
+    }
+
+    /**
+     * Set titleCanonical
+     *
+     * @param string $titleCanonical
+     * @return Drawing
+     */
+    public function setTitleCanonical($titleCanonical)
+    {
+        $this->titleCanonical = $titleCanonical;
+
+        return $this;
+    }
+
+    /**
+     * Get titleCanonical
+     *
+     * @return string 
+     */
+    public function getTitleCanonical()
+    {
+        if (empty($this->title) && isset($this->id)) {
+            return $this->id;
+        }
+        return $this->titleCanonical;
     }
 
     /**
