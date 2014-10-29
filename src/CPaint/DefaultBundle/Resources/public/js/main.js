@@ -32,7 +32,7 @@ $(document).ready(function() {
         if ($(this).attr("data-id") == 42) {
             $('body').css('background-color', '#fff');
         } else {
-            $('body').css('background-color', '#72B3C8');
+            $('body').css('background-color', '#4992aa');
         }
     });
     // if selected color is 42 => set background to white

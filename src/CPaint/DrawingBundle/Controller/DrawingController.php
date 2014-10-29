@@ -72,7 +72,8 @@ class DrawingController extends Controller
         $drawing->setHeight($height);
         $drawing->setWidth($width);
         
-        $pixel = $this->addPixelToDrawing($drawing, $color, $position);
+        $service = new DrawingService();
+        $pixel = $service->addPixelToDrawing($drawing, $color, $position);
         if ($pixel !== null) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($pixel);
@@ -81,7 +82,7 @@ class DrawingController extends Controller
         } else {
             // print error
             $session = $this->container->get('session');
-            $session->getFlashBag()->add('error', 'Failed to add this pixel');
+            $session->getFlashBag()->add('error', 'Failed to create this drawing');
         }
 
         return $this->redirect($this->generateUrl('drawing_edit', array('id' => $drawing->getId(), 'color' => $color)));
