@@ -21,13 +21,18 @@ class DrawingController extends Controller
 {
     
     /**
-     * @Route("/new", name="drawing_new")
-     * @Method("POST")
+     * @Route("/new_{width}x{height}", name="drawing_new")
+     * @Template()
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, $width = 16, $height = 16)
     {
-        $width = $request->request->get('width', 16);
-        $height = $request->request->get('height', $width);
+        $allowedSizes = [8, 16, 32, 64];
+        if (!in_array($width, $allowedSizes)) {
+            $width = 16;
+        }
+        if (!in_array($height, $allowedSizes)) {
+            $height = 16;
+        }
         
         $drawing = new Drawing();
         $drawing->setCreatedAt(new \DateTime());
@@ -79,16 +84,6 @@ class DrawingController extends Controller
         }
 
         return $this->redirect($this->generateUrl('drawing_edit', array('id' => $drawing->getId(), 'color' => $color)));
-    }
-
-    /**
-     * @Route("/{id}", name="drawing_show")
-     */
-    public function showAction($id)
-    {
-        return $this->forward('CPaintDrawingBundle:Drawing:edit', array(
-            'id' => $id,
-        ));
     }
 
     /**
@@ -185,6 +180,16 @@ class DrawingController extends Controller
         $pixel->setPosition($position);
         
         return $pixel;
+    }
+
+    /**
+     * @Route("/{id}/show", name="drawing_show")
+     */
+    public function showAction($id)
+    {
+        return $this->forward('CPaintDrawingBundle:Drawing:edit', array(
+            'id' => $id,
+        ));
     }
 
 }

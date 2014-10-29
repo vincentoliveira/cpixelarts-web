@@ -1,6 +1,6 @@
 {% extends "CPaintDefaultBundle::layout.html.twig" %}
-{% block title %}cPaint - Drawing {{ drawing.title }}{% endblock title %}
-{% block image %}{{ url('gallery_drawing', {id:drawing.id}) }}{% endblock %}
+{% block title %}cPaint - {{ drawing.title }}{% endblock title %}
+{% block image %}{{ url('gallery_drawing_width', {id:drawing.id, width:320}) }}{% endblock %}
 {% block url %}{{ url('drawing_show', {id:drawing.id}) }}{% endblock %}
 {% block content %}
 <div class="container-fluid">

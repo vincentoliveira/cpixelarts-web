@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use CPaint\DrawingBundle\Entity\Drawing;
 use CPaint\DrawingBundle\Service\ColorService;
+use CPaint\DrawingBundle\Service\DrawingService;
 
 /**
  * @Route("/gallery")
@@ -37,45 +38,26 @@ class GalleryController extends Controller
     }
 
     /**
+     * @Route("/drawing-{id}_{width}x{height}.gif", name="gallery_drawing_width_height")
+     * @Route("/drawing-{id}_{width}.gif", name="gallery_drawing_width")
      * @Route("/drawing-{id}.gif", name="gallery_drawing")
      * @ParamConverter("drawing", class="CPaintDrawingBundle:Drawing")
      */
-    public function bitmapAction(Drawing $drawing)
+    public function bitmapAction(Drawing $drawing, $width = 0, $height = 0)
     {
-        $colors = [];
-        $width = $drawing->getWidth();
-        $height = $drawing->getHeight();
-        
-        $bitmap = imagecreatetruecolor(2 * $width, 2 * $height);
-        
-        // set background to white
-        $white = imagecolorallocate($bitmap, 255, 255, 255);
-        imagefill($bitmap, 0, 0, $white);
-
-        foreach ($drawing->getPixels() as $pixel) {
-            $y = 2 * intval($pixel->getPosition() / $width);
-            $x = 2 * ($pixel->getPosition() % $height);
-            
-            $color = $pixel->getColor();
-            if (!isset($colors[$color])) {
-                $rgb = ColorService::colorToRGB($color);
-                $colors[$color] = imagecolorallocate($bitmap, $rgb['r'], $rgb['g'], $rgb['b']);
-            }
-            
-            imagesetpixel($bitmap, $x, $y, $colors[$color]);
-            imagesetpixel($bitmap, $x + 1, $y, $colors[$color]);
-            imagesetpixel($bitmap, $x, $y + 1, $colors[$color]);
-            imagesetpixel($bitmap, $x + 1, $y + 1, $colors[$color]);
+        if ($width > 0 && $height <= 0) {
+            // if heigh not set, calculate height proportionally
+            $height = $drawing->getHeight() * $width / $drawing->getWidth();
         }
-        $tmpfname = tempnam("/tmp", "cpaint");
-        //imagepng($bitmap, $tmpfname);
-        imagegif($bitmap, $tmpfname);
-        $bitmapContent = file_get_contents($tmpfname);
+        
+        $service = new DrawingService();
+        $filename = $service->exportGif($drawing, $width, $height);
+        $bitmapContent = file_get_contents($filename);
 
         $response = new Response($bitmapContent);
         $response->headers->set('Content-Type', 'image/png');
 
-        unlink($tmpfname);
+        unlink($filename);
         
         return $response;
     }
