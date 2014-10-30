@@ -166,6 +166,21 @@ class DrawingController extends Controller
     }
 
     /**
+     * @Route("/{id}/lock", name="drawing_lock")
+     * @ParamConverter("drawing", class="CPaintDrawingBundle:Drawing")
+     */
+    public function lockAction(Request $request, Drawing $drawing)
+    {
+        $drawing->setLocked(true);
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($drawing);
+        $em->flush();
+                
+        return $this->redirect($this->generateUrl('drawing_edit', array('id' => $drawing->getId())));
+    }
+
+    /**
      * @Route("/{slug}", name="drawing_show")
      */
     public function showAction($slug)

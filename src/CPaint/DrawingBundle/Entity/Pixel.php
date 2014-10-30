@@ -31,7 +31,7 @@ class Pixel
     /**
      * @var integer
      *
-     * @ORM\Column(name="color", type="integer", nullable=false)
+     * @ORM\Column(name="color", type="smallint", nullable=false)
      */
     private $color;
     

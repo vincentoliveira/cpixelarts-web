@@ -1,7 +1,9 @@
 body { background-color: #4992aa; color: #72B3C8; }
 
 h1 { color: #156883; }
-h1 img { width: 128px; }
+h1 img { vertical-align: bottom; }
+h1 .logo { width: 128px; }
+h1 .lockpad { width: 32px; }
 h1 small { display: inline-block; vertical-align: bottom; color: #A7D5E4; }
 h1 small em { font-size: 0.8em; }
 h1 small form { display: inline-block; }

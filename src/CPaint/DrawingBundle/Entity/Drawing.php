@@ -57,6 +57,13 @@ class Drawing
     private $height;
     
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_locked", type="boolean", nullable=false)
+     */
+    private $isLocked = false;
+    
+    /**
      * @var ArrayCollection
      *     
      * @ORM\OneToMany(targetEntity="CPaint\DrawingBundle\Entity\Pixel", mappedBy="drawing", cascade={"remove", "persist"})
@@ -128,7 +135,7 @@ class Drawing
      */
     public function getTitleCanonical()
     {
-        if (empty($this->title) && isset($this->id)) {
+        if (empty($this->titleCanonical) && isset($this->id)) {
             return $this->id;
         }
         return $this->titleCanonical;
@@ -201,6 +208,29 @@ class Drawing
     public function getHeight()
     {
         return $this->height;
+    }
+
+    /**
+     * Set Locked
+     *
+     * @param boolean $isLocked
+     * @return Drawing
+     */
+    public function setLocked($isLocked)
+    {
+        $this->isLocked = $isLocked;
+
+        return $this;
+    }
+
+    /**
+     * Is Locked ?
+     *
+     * @return boolean 
+     */
+    public function IsLocked()
+    {
+        return $this->isLocked;
     }
 
     /**
