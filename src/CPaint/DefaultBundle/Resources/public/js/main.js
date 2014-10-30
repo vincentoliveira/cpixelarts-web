@@ -59,6 +59,10 @@ $(document).ready(function() {
 
     // add a pixel
     $(".empty-pixel").click(function(e) {
+        if (!$(this).hasClass("empty-pixel")) {
+            return;
+        }
+        
         $(this).removeClass("empty-pixel").css('background', getSelectedColor());
         $('input[name="position"]').val($(this).attr("data-pos"));
         if ($("#addPixelForm").attr("reload") == "true") {
