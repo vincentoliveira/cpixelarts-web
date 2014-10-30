@@ -62,7 +62,7 @@ class DrawingsController extends Controller
         $color = intval($request->request->get('color', -1));
         $position = intval($request->request->get('position', -1));
 
-        $service = new DrawingService();
+        $service = $this->get('cpaint.drawing');
         $pixel = $service->addPixelToDrawing($drawing, $color, $position);
         if ($pixel === null) {
             throw new HttpException(400, sprintf("This pixel (%d, %d) is not valid", $color, $position));

@@ -50,7 +50,7 @@ class GalleryController extends Controller
             $height = $drawing->getHeight() * $width / $drawing->getWidth();
         }
         
-        $service = new DrawingService();
+        $service = $this->get('cpaint.drawing');
         $filename = $service->exportGif($drawing, $width, $height);
         $bitmapContent = file_get_contents($filename);
 

@@ -71,8 +71,8 @@ class DrawingController extends Controller
         $drawing->setCreatedAt(new \DateTime());
         $drawing->setHeight($height);
         $drawing->setWidth($width);
-        
-        $service = new DrawingService();
+
+        $service = $this->get('cpaint.drawing');
         $pixel = $service->addPixelToDrawing($drawing, $color, $position);
         if ($pixel !== null) {
             $em = $this->getDoctrine()->getManager();
@@ -128,8 +128,8 @@ class DrawingController extends Controller
         $title = $request->request->get('title', null);
         
         if ($title) {
-            $canonicalizer = new DrawingService();
-            $titleCanonical = $canonicalizer->canonicalizeTitle($title);
+            $service = $this->get('cpaint.drawing');
+            $titleCanonical = $service->canonicalizeTitle($title);
             $drawing->setTitle($title);
             $drawing->setTitleCanonical($titleCanonical);
             $em = $this->getDoctrine()->getManager();
@@ -150,7 +150,7 @@ class DrawingController extends Controller
         $color = $request->request->get('color');
         $position = $request->request->get('position');
 
-        $service = new DrawingService();
+        $service = $this->get('cpaint.drawing');
         $pixel = $service->addPixelToDrawing($drawing, $color, $position);
         if ($pixel !== null) {
             $em = $this->getDoctrine()->getManager();

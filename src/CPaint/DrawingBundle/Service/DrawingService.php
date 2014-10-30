@@ -4,6 +4,7 @@ namespace CPaint\DrawingBundle\Service;
 
 use CPaint\DrawingBundle\Entity\Drawing;
 use CPaint\DrawingBundle\Entity\Pixel;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Description of DrawingService
@@ -12,7 +13,12 @@ use CPaint\DrawingBundle\Entity\Pixel;
  */
 class DrawingService
 {
-
+    /**
+     *
+     * @var Container 
+     */
+    protected $container;
+    
     /**
      * Export width
      * 
@@ -40,6 +46,16 @@ class DrawingService
      * @var int 
      */
     protected $dHeight;
+    
+    /**
+     * Constructor
+     * 
+     * @param \Symfony\Component\DependencyInjection\Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * Export gif from drawing
@@ -91,7 +107,17 @@ class DrawingService
      */
     public function canonicalizeTitle($str)
     {
-        return preg_replace('/[^A-Za-z0-9-]+/', '-', $this->removeAccents($str));
+        $repo = $this->container->get('doctrine')->getRepository('CPaintDrawingBundle:Drawing');
+
+        $title = preg_replace('/[^A-Za-z0-9-]+/', '-', $this->removeAccents($str));
+        
+        $codeAlphabet = "abcdefghijklmnopqrstuvwxyz0123456789-";
+        $salt = "";
+        while ($repo->findOneByTitleCanonical($title . $salt) !== null) {
+            $salt .= $codeAlphabet[mt_rand(0, strlen($codeAlphabet) - 1)];
+        }
+        
+        return $title . $salt;
     }
 
     /**
