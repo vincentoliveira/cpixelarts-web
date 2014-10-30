@@ -16,9 +16,11 @@ a:hover { color: #156883; }
 footer { margin: 50px 0; }
 
 /** Drawing **/
-#drawing-container { margin: 50px -15px; }
 .pixel { display: block; float: left; }
+.pixel.selected { border: 2px solid black; }
+#drawing-container { margin: 50px -15px; }
 #drawing { }
+#drawing .pixel { border: 1px solid white; }
 #drawing .line:first-child .pixel { border-top: 20px solid white; }
 #drawing .line:last-child .pixel { border-bottom: 20px solid white; }
 #drawing .line .pixel:first-child { border-left: 20px solid white; }
@@ -31,24 +33,16 @@ footer { margin: 50px 0; }
 /** Colors **/
 .colors .pixel { width: 20px; height: 20px; margin: 1px; }
 
-.bitmap {
-    margin: 0;
-    padding: 10px;
-}
+/** Icons **/
+.icon { display: inline-block; width: 16px; height: 16px; background-size: 16px 16px; background-repeat: no-repeat; vertical-align: text-top; }
+.icon-locked { background-image: url(../images/locked.gif); }
+.icon-unlocked { background-image: url(../images/unlocked.gif); }
 
-.bitmap img {
-    width: 100%;
-    max-width: 480px;
-    height: auto;
-    border: 4px solid black;
-}
+/* Gallery */
+.drawing { margin: 0; padding: 10px; }
+a.drawing, a.drawing:hover { text-decoration: none; }
+.drawing img { width: 100%; max-width: 480px; height: auto; border: 4px solid black; }
 
-.edit-bitmap .pixel {
-    border:1px solid #ccc;
-}
-.pixel.selected {
-    border: 2px solid black;
-}
 
 /** Sign in **/
 .signin .rememberme { display: inline-block; margin: 0 0 0 10px; }
