@@ -153,8 +153,14 @@ class DrawingController extends Controller
         $service = $this->get('cpaint.drawing');
         $pixel = $service->addPixelToDrawing($drawing, $color, $position);
         if ($pixel !== null) {
+            $drawing->addPixel($pixels);
+            if ($drawing->getPixels()->count() >= ($drawing->getWidth() * $drawing->getHeight() / 16)) {
+                $drawing->setDisplayable(true);
+            }
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($pixel);
+            $em->persist($drawing);
             $em->flush();
         } else {
             // print error

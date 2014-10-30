@@ -69,6 +69,9 @@ class DrawingsController extends Controller
         }
         
         $drawing->addPixel($pixel);
+        if ($drawing->getPixels()->count() >= ($drawing->getWidth() * $drawing->getHeight() / 16)) {
+            $drawing->setDisplayable(true);
+        }
         
         $em = $this->getDoctrine()->getManager();
         $em->persist($pixel);

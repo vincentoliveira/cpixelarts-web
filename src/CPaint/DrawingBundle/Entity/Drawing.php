@@ -64,6 +64,13 @@ class Drawing
     private $isLocked = false;
     
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_displayable", type="boolean", nullable=false)
+     */
+    private $isDisplayable = false;
+    
+    /**
      * @var ArrayCollection
      *     
      * @ORM\OneToMany(targetEntity="CPaint\DrawingBundle\Entity\Pixel", mappedBy="drawing", cascade={"remove", "persist"})
@@ -231,6 +238,29 @@ class Drawing
     public function IsLocked()
     {
         return $this->isLocked;
+    }
+
+    /**
+     * Set displayable
+     *
+     * @param boolean $isDisplayable
+     * @return Drawing
+     */
+    public function setDisplayable($isDisplayable)
+    {
+        $this->isDisplayable = $isDisplayable;
+
+        return $this;
+    }
+
+    /**
+     * Is displayable ?
+     *
+     * @return boolean 
+     */
+    public function isDisplayable()
+    {
+        return $this->isDisplayable;
     }
 
     /**
