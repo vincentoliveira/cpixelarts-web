@@ -4,6 +4,7 @@ namespace CPaint\ApiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\View\View;
+use CPaint\DrawingBundle\Service\ColorService;
 
 class DefaultController extends Controller
 {
@@ -23,6 +24,22 @@ class DefaultController extends Controller
         return $this->getViewHandler()->handle($view);
     }
 
+    /**
+     * Get color list
+     * 
+     * @api
+     */
+    public function getColorsAction()
+    {
+        $colors = ColorService::RGBStringColors();
+        
+        $view = View::create()
+            ->setData(array('colors' => $colors));
+
+        return $this->getViewHandler()->handle($view);
+    }
+    
+    
     /**
      * @return \FOS\RestBundle\View\ViewHandler
      */
