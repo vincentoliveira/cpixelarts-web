@@ -137,9 +137,7 @@ class DrawingController extends Controller
         $pixel = $service->addPixelToDrawing($drawing, $color, $position);
         if ($pixel !== null) {
             $drawing->addPixel($pixels);
-            if ($drawing->getPixels()->count() >= ($drawing->getWidth() * $drawing->getHeight() / 16)) {
-                $drawing->setDisplayable(true);
-            }
+            $drawing->setDisplayable($service->isDisplayable($drawing));
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($pixel);
@@ -160,7 +158,9 @@ class DrawingController extends Controller
      */
     public function lockAction(Request $request, Drawing $drawing)
     {
+        $service = $this->get('cpaint.drawing');
         $drawing->setLocked(true);
+        $drawing->setDisplayable($service->isDisplayable($drawing));
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($drawing);
