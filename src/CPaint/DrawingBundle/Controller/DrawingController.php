@@ -20,29 +20,19 @@ use CPaint\DrawingBundle\Service\DrawingService;
  */
 class DrawingController extends Controller
 {
-    
+
     /**
      * @Route("/new_{width}x{height}", name="drawing_new")
      * @Template()
      */
     public function newAction(Request $request, $width = 0, $height = 0)
     {
-        $allowedSizes = [8, 16, 32, 64];
-        if (!in_array($width, $allowedSizes)) {
-            $width = 16;
-        }
-        if (!in_array($height, $allowedSizes)) {
-            $height = 16;
-        }
-        
-        $drawing = new Drawing();
-        $drawing->setCreatedAt(new \DateTime());
-        $drawing->setHeight($height);
-        $drawing->setWidth($width);
-        
+        $service = $this->get('cpaint.drawing');
+        $drawing = $service->initDrawing($width, $height);
+
         $colors = [];
         $pixels = array_fill(0, $drawing->getWidth() * $drawing->getHeight(), false);
-        
+
         return array(
             'drawing' => $drawing,
             'pixels' => $pixels,
@@ -58,32 +48,25 @@ class DrawingController extends Controller
      */
     public function createAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
         $width = $request->request->get('width', -1);
         $height = $request->request->get('height', -1);
         $color = $request->request->get('color', -1);
         $position = $request->request->get('position', -1);
 
-        if ($width < 0 || $height < 0 || $color < 0 || $position < 0) {
-            return $this->redirect($this->generateUrl('homepage'));
-        }
-
-        $drawing = new Drawing();
-        $drawing->setCreatedAt(new \DateTime());
-        $drawing->setHeight($height);
-        $drawing->setWidth($width);
-
+        // create drawing
         $service = $this->get('cpaint.drawing');
+        $drawing = $service->initDrawing($width, $height);
+        $em->persist($drawing);
+
+        // try to add pixel
         $pixel = $service->addPixelToDrawing($drawing, $color, $position);
         if ($pixel !== null) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($pixel);
-            $em->persist($drawing);
-            $em->flush();
-        } else {
-            // print error
-            $session = $this->container->get('session');
-            $session->getFlashBag()->add('error', 'Failed to create this drawing');
         }
+
+        $em->flush();
 
         return $this->redirect($this->generateUrl('drawing_edit', array('id' => $drawing->getId(), 'color' => $color)));
     }
@@ -126,7 +109,7 @@ class DrawingController extends Controller
     public function setTitleAction(Request $request, Drawing $drawing)
     {
         $title = $request->request->get('title', null);
-        
+
         if ($title) {
             $service = $this->get('cpaint.drawing');
             $titleCanonical = $service->canonicalizeTitle($title);
@@ -136,7 +119,7 @@ class DrawingController extends Controller
             $em->persist($drawing);
             $em->flush();
         }
-            
+
         return $this->redirect($this->generateUrl('drawing_edit', array('id' => $drawing->getId())));
     }
 
@@ -157,7 +140,7 @@ class DrawingController extends Controller
             if ($drawing->getPixels()->count() >= ($drawing->getWidth() * $drawing->getHeight() / 16)) {
                 $drawing->setDisplayable(true);
             }
-            
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($pixel);
             $em->persist($drawing);
@@ -178,11 +161,11 @@ class DrawingController extends Controller
     public function lockAction(Request $request, Drawing $drawing)
     {
         $drawing->setLocked(true);
-        
+
         $em = $this->getDoctrine()->getManager();
         $em->persist($drawing);
         $em->flush();
-                
+
         return $this->redirect($this->generateUrl('drawing_edit', array('id' => $drawing->getId())));
     }
 
@@ -199,9 +182,9 @@ class DrawingController extends Controller
                 return $this->redirect($this->generateUrl('homepage'));
             }
         }
-        
+
         return $this->forward('CPaintDrawingBundle:Drawing:edit', array(
-            'drawing' => $drawing,
+                    'drawing' => $drawing,
         ));
     }
 

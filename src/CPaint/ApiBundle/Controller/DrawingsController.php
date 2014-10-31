@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use CPaint\DrawingBundle\Service\DrawingService;
+use CPaint\DrawingBundle\Entity\Drawing;
 use FOS\RestBundle\View\View;
 
 class DrawingsController extends Controller
@@ -49,6 +49,81 @@ class DrawingsController extends Controller
 
         return $this->getViewHandler()->handle($view);
     }
+    
+    /**
+     * Create a new drawing
+     * 
+     * @api
+     */
+    public function postDrawingsAction(Request $request)
+    {
+        $width = $request->request->get('width', -1);
+        $height = $request->request->get('height', -1);
+        $title = $request->request->get('title', null);
+        
+        $service = $this->get('cpaint.drawing');
+        $drawing = $service->initDrawing($width, $height, $title);
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($drawing);
+        $em->flush();
+        
+        $view = View::create()
+                ->setData(array('drawing' => $drawing));
+
+        return $this->getViewHandler()->handle($view);
+    }
+    
+    /**
+     * Set drawing title
+     * 
+     * @api
+     */
+    public function titleDrawingAction(Request $request, $id)
+    {
+        $drawing = $this->getDrawing($id);
+        $title = $request->request->get('title');
+        if ($title === null) {
+            throw new HttpException(400, "The title cannot be null");
+        }
+        
+        $service = $this->get('cpaint.drawing');
+        $titleCanonical = $service->canonicalizeTitle($title);
+        $drawing->setTitle($title);
+        $drawing->setTitleCanonical($titleCanonical);
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($drawing);
+        $em->flush();
+        
+        $view = View::create()
+                ->setData(array('drawing' => $drawing));
+
+        return $this->getViewHandler()->handle($view);
+    }
+    /**
+     * Lock drawing
+     * 
+     * @api
+     */
+    public function lockDrawingAction($id)
+    {
+        $service = $this->get('cpaint.drawing');
+        
+        $drawing = $this->getDrawing($id);
+        $drawing->setLocked(true);
+        $drawing->setDisplayable($service->isDisplayable($drawing));
+
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($drawing);
+        $em->flush();
+        
+        $view = View::create()
+                ->setData(array('drawing' => $drawing));
+
+        return $this->getViewHandler()->handle($view);
+    }
 
     /**
      * Add a pixel to a drawing
@@ -69,9 +144,7 @@ class DrawingsController extends Controller
         }
         
         $drawing->addPixel($pixel);
-        if ($drawing->getPixels()->count() >= ($drawing->getWidth() * $drawing->getHeight() / 16)) {
-            $drawing->setDisplayable(true);
-        }
+        $drawing->setDisplayable($service->isDisplayable($drawing));
         
         $em = $this->getDoctrine()->getManager();
         $em->persist($pixel);

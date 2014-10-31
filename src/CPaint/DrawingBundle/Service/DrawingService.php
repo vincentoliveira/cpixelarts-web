@@ -13,6 +13,9 @@ use Symfony\Component\DependencyInjection\Container;
  */
 class DrawingService
 {
+    public static $allowedSizes = [8, 16, 32, 64];
+    public static $defaultSize = 16;
+
     /**
      *
      * @var Container 
@@ -56,6 +59,40 @@ class DrawingService
     {
         $this->container = $container;
     }
+    
+    /**
+     * Initialise new drawing
+     * 
+     * @param type $width
+     * @param type $height
+     * @param type $title
+     * @return \CPaint\DrawingBundle\Entity\Drawing
+     */
+    public function initDrawing($width = -1, $height = -1, $title = null)
+    {
+        if (!in_array($width, self::$allowedSizes)) {
+            $width = self::$defaultSize;
+        }
+        if (!in_array($height, self::$allowedSizes)) {
+            $height = $width;
+        }
+        
+        if ($title) {
+            $titleCanonical = $this->canonicalizeTitle($title);
+        } else {
+            $titleCanonical = null;
+        }
+        
+        $drawing = new Drawing();
+        $drawing->setCreatedAt(new \DateTime());
+        $drawing->setWidth($width);
+        $drawing->setHeight($height);
+        $drawing->setTitle($title);
+        $drawing->setTitleCanonical($titleCanonical);
+        $drawing->setLocked(false);
+        
+        return $drawing;
+    }
 
     /**
      * Export gif from drawing
@@ -97,6 +134,18 @@ class DrawingService
         imagegif($image, $tmpfname);
 
         return $tmpfname;
+    }
+
+    /**
+     * Is drawing displayable
+     * 
+     * @param \CPaint\DrawingBundle\Entity\Drawing $drawing
+     * @return boolean
+     */
+    public function isDisplayable(Drawing $drawing)
+    {
+        return ($drawing->getPixels()->count() > 0 && $drawing->IsLocked()) ||
+                ($drawing->getPixels()->count() >= ($drawing->getWidth() * $drawing->getHeight() / 16));
     }
 
     /**

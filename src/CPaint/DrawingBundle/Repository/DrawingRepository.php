@@ -34,12 +34,12 @@ class DrawingRepository extends EntityRepository
         $qb = $this->createQueryBuilder('drawing');
 
         $count = $qb->select('COUNT(drawing)')
-                ->where('drawing.isDisplayable')
+                ->where('drawing.isDisplayable = true')
                 ->getQuery()
                 ->getSingleScalarResult();
 
         $qb->select('drawing, COUNT(pixel), COUNT(DISTINCT pixel.color)')
-                ->where('drawing.isDisplayable')
+                ->where('drawing.isDisplayable = true')
                 ->leftJoin('drawing.pixels', 'pixel')
                 ->groupBy('drawing.id')
                 ->orderBy('drawing.id', 'DESC')
