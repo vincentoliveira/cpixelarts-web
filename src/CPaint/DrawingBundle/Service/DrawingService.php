@@ -110,10 +110,11 @@ class DrawingService
         $this->xHeight = $height > 0 ? $height : $this->dHeight;
 
         $image = imagecreatetruecolor($this->xWidth, $this->xHeight);
+        //imagesavealpha($image, true);
 
-        // set background to white
-        $white = imagecolorallocate($image, 255, 255, 255);
-        imagefill($image, 0, 0, $white);
+        // set background to transparent
+        imagefill($image, 0, 0, 0x7f000000);
+        imagecolortransparent($image, 0x7f000000);
 
         $colors = [];
         foreach ($drawing->getPixels() as $pixel) {
@@ -128,9 +129,10 @@ class DrawingService
 
             $this->addPixel($image, $x, $y, $colors[$color]);
         }
+        
 
         $tmpfname = tempnam("/tmp", "cpaint");
-        //imagepng($bitmap, $tmpfname);
+        //imagepng($image, $tmpfname);
         imagegif($image, $tmpfname);
 
         return $tmpfname;
