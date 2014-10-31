@@ -15,7 +15,7 @@ class DefaultControllerTest extends CPaintDefaultTestCase
         parent::setUp();
     }
     
-    public function testVersionScenario()
+    public function testVersion()
     {
         $version = $this->container->getParameter('api_version');
         $this->client->request('GET', '/api/version');
@@ -29,6 +29,13 @@ class DefaultControllerTest extends CPaintDefaultTestCase
         $this->client->request('GET', '/api/version.xml');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /api/version.xml");
         $this->assertRegExp("/$version/", $this->client->getResponse()->getContent(), "Bad version for GET /api/version.xml");
-        
+    }
+    
+    public function testColors()
+    {
+        $this->client->request('GET', '/api/colors');
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /api/colors");
+        $response = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertCount(256, $response['colors'], "Expected 256 colors");
     }
 }
