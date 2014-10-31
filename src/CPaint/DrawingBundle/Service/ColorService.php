@@ -17,15 +17,11 @@ class ColorService
      */
     public static function colorToRGB($color)
     {
-//        $r = ($color >> 5) << 5;
-//        $g = (($color & 0x1f) >> 2) << 5;
-//        $b = ($color & 0x03) << 6;
-
         $r = $color >> 5;
-        $rr = (($r << 6) + ($r << 3) + $r) % 256;
+        $rr = (($r << 5) + ($r << 2) + ($r >> 1)) % 256;
         
         $g = ($color & 0x1f) >> 2;
-        $gg = (($g << 6) + ($g << 3) + $g) % 256;
+        $gg = (($g << 5) + ($g << 2) + ($g >> 1)) % 256;
         
         $b = $color & 0x03;
         $bb = ($b << 6) + ($b << 4) + ($b << 2) + $b;
