@@ -51,7 +51,18 @@ class DrawingRepository extends EntityRepository
         foreach ($rawResults as $result) {
             $result[0]['nb_pixels'] = $result[1];
             $result[0]['nb_colors'] = $result[2];
-            $results[] = $result[0];
+            $drawing = array(
+                'id'                => $result[0]['id'],
+                'title'             => $result[0]['title'],
+                'title_canonical'   => $result[0]['titleCanonical'],
+                'created_at'        => $result[0]['createdAt'],
+                'is_locked'         => $result[0]['isLocked'],
+                'width'             => $result[0]['width'],
+                'height'            => $result[0]['height'],
+                'nb_pixels'         => $result[1],
+                'nb_colors'         => $result[2],
+            );
+            $results[] = $drawing;
         }
 
         return array(
