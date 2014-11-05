@@ -1,6 +1,6 @@
 {% extends "CPaintDefaultBundle::layout.html.twig" %}
 {% block title %}cPaint - {{ drawing.title }}{% endblock title %}
-{% block image %}{{ url('gallery_drawing_width', {id:drawing.id, width:320}) }}{% endblock %}
+{% block image %}{{ url('gallery_drawing_width', {slug:drawing.titleCanonical, width:320, ext:"png"}) }}{% endblock %}
 {% block url %}{{ url('drawing_show', {slug:drawing.titleCanonical}) }}{% endblock %}
 {% block content %}
 <div class="container-fluid">
@@ -33,7 +33,7 @@
         <a href="https://twitter.com/share" class="twitter-share-button" data-via="cPaintApp">Tweet</a>
     </div>
     {% if drawing.isLocked %}
-    <img src="{{ path('gallery_drawing_width', {id:drawing.id, width:512}) }}" alt="{{ drawing.title }}" />
+    <img class="pixelArt" src="{{ path('gallery_drawing_width', {slug:drawing.titleCanonical, width:512}) }}" alt="{{ drawing.title }}" />
     {% else %}
     {% include "CPaintDrawingBundle:Drawing:_drawing.html.twig" %}
     <form id="addPixelForm" action="{{ path('post_drawing_pixels', {id:drawing.id}) }}" method="POST" reload="false">

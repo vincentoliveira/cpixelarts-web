@@ -109,12 +109,45 @@ class DrawingService
         $this->xWidth = $width > 0 ? $width : $this->dWidth;
         $this->xHeight = $height > 0 ? $height : $this->dHeight;
 
+        $image = $this->createImage($drawing);
+        
+        $tmpfname = tempnam("/tmp", "cpaint");
+        imagegif($image, $tmpfname);
+
+        return $tmpfname;
+    }
+    
+    /**
+     * Export png from drawing
+     * 
+     * @param \CPaint\DrawingBundle\Entity\Drawing $drawing
+     * @param int $width
+     * @param int $height
+     * @return string filename of exported gif
+     */
+    public function exportPng(Drawing $drawing, $width = 0, $height = 0)
+    {
+        $this->dWidth = $drawing->getWidth();
+        $this->dHeight = $drawing->getHeight();
+        $this->xWidth = $width > 0 ? $width : $this->dWidth;
+        $this->xHeight = $height > 0 ? $height : $this->dHeight;
+
+        $image = $this->createImage($drawing);
+        
+        $tmpfname = tempnam("/tmp", "cpaint");
+        imagepng($image, $tmpfname);
+
+        return $tmpfname;
+    }
+    
+    private function createImage(Drawing $drawing)
+    {
         $image = imagecreatetruecolor($this->xWidth, $this->xHeight);
         //imagesavealpha($image, true);
 
         // set background to transparent
-        imagefill($image, 0, 0, 0x7f000000);
-        imagecolortransparent($image, 0x7f000000);
+        imagefill($image, 0, 0, 0x7f010101);
+        imagecolortransparent($image, 0x7f010101);
 
         $colors = [];
         foreach ($drawing->getPixels() as $pixel) {
@@ -130,12 +163,7 @@ class DrawingService
             $this->addPixel($image, $x, $y, $colors[$color]);
         }
         
-
-        $tmpfname = tempnam("/tmp", "cpaint");
-        //imagepng($image, $tmpfname);
-        imagegif($image, $tmpfname);
-
-        return $tmpfname;
+        return $image;
     }
 
     /**
