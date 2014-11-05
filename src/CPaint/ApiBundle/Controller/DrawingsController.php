@@ -57,6 +57,8 @@ class DrawingsController extends Controller
      */
     public function postDrawingsAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        
         $width = $request->request->get('width', -1);
         $height = $request->request->get('height', -1);
         $title = $request->request->get('title', null);
@@ -64,7 +66,15 @@ class DrawingsController extends Controller
         $service = $this->get('cpaint.drawing');
         $drawing = $service->initDrawing($width, $height, $title);
         
-        $em = $this->getDoctrine()->getManager();
+        // add a pixel
+        $color = intval($request->request->get('color', -1));
+        $position = intval($request->request->get('position', -1));
+        $pixel = $service->addPixelToDrawing($drawing, $color, $position);
+        if ($pixel !== null) {
+            $em->persist($pixel);
+            $drawing->addPixel($pixel);
+        }
+        
         $em->persist($drawing);
         $em->flush();
         

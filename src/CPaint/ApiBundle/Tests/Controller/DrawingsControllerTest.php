@@ -20,6 +20,9 @@ class DrawingsControllerTest extends CPaintDefaultTestCase
         // clean database
         $this->cleanDrawings();
         
+        $title = "Test 42";
+        $color = $position = 42;
+        
         // Get all drawings (should get 0 result)
         $this->client->request('GET', '/api/drawings');
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /api/drawings");
@@ -39,6 +42,21 @@ class DrawingsControllerTest extends CPaintDefaultTestCase
         $responseDrawing = json_decode($rawRepsonseDrawing, true);
         
         $drawingID = $responseDrawing['drawing']['id'];
+        
+        // create drawing with title and pixel
+        $this->client->request('POST', '/api/drawings', array(
+            'title' => $title,
+            'color' => $color,
+            'position' => $position,
+        ));
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for POST /api/drawings");
+        $rawRepsonseDrawingB = $this->client->getResponse()->getContent();
+        $responseDrawingB = json_decode($rawRepsonseDrawingB, true);
+        $this->assertEquals($title, $responseDrawingB["drawing"]["title"], sprintf("Tile should be %s, is %d.", $title, $responseDrawingB["drawing"]["title"]));
+        $this->assertCount(1, $responseDrawingB["drawing"]["pixels"], sprintf("Should contain 1 pixel."));
+        $this->assertEquals($color, $responseDrawingB["drawing"]["pixels"][0]["color"], sprintf("Color should be %.", $color));
+        $this->assertEquals($position, $responseDrawingB["drawing"]["pixels"][0]["position"], sprintf("Position should be %.", $color));
+
          
         // get previously created drawing (should be 0)
         $this->client->request('GET', '/api/drawings/' . $drawingID);
@@ -52,7 +70,6 @@ class DrawingsControllerTest extends CPaintDefaultTestCase
         $this->assertEquals(1, $response2["page"], sprintf("Page should be 1, is %d.", $response2["page"]));
 
         // Set title
-        $title = 'Test 1';
         $this->client->request('PATCH', '/api/drawings/' . $drawingID . "/title");
         $this->assertEquals(400, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for PATCH /api/drawings/" . $drawingID . "/title without title");
         
@@ -64,7 +81,6 @@ class DrawingsControllerTest extends CPaintDefaultTestCase
         $this->assertEquals($title, $responseDrawing2["drawing"]["title"], sprintf("Tile should be %s, is %d.", $title, $responseDrawing2["drawing"]["title"]));
 
         // Add pixel
-        $color = $position = 42;
         $addPixelUrl = '/api/drawings/' . $drawingID . '/pixels';
         $this->client->request('POST', $addPixelUrl, array(
             'color' => -1,
