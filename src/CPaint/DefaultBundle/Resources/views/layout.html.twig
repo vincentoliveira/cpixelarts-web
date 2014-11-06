@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{% block title %}cPaint - The first collaborative Pixel Art app{% endblock %}</title>
+        <title>{% block title %}cPixel Arts - The first collaborative Pixel Art app{% endblock %}</title>
         {% block meta %}
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="title" content="{{ block('title') }}"/>
-        <meta name="description" content="{% block description %}cPaint is the first collaborative Pixel Art app. With cPaint, you can create or edit drawings, share it and much more. For more information, visit {{ url('homepage') }}{% endblock %}"/>
+        <meta name="description" content="{% block description %}This is the first collaborative Pixel Art app. With cPixel Arts, you can create Pixel Arts, share it with your friends and edit your favorite artist drawings. For more information, visit {{ url('homepage') }}{% endblock %}"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta property="fb:app_id" content="323063997879046" />
         <meta property="og:title" content="{{ block('title') }}" />
         <meta property="og:description" content="{{ block('description') }}" />
         <meta property="og:image" content="{% block image %}{{ asset('bundles/cpaintdefault/images/logo.png') }}{% endblock %}"
-        <meta property="og:site_name" content="cPaint" />
+        <meta property="og:site_name" content="cPixel Arts" />
         <meta property="og:url" content="{% block url %}{{ url('homepage') }}{% endblock url %}" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="photo" />
-        <meta name="twitter:site" content="@cPaintApp" />
+        <meta name="twitter:site" content="@cPixelArts" />
         <meta name="twitter:title" content="{{ block('title') }}" />
         <meta name="twitter:description" content="{{ block('description') }}" />
         <meta name="twitter:image" content="{{ block('image') }}" />

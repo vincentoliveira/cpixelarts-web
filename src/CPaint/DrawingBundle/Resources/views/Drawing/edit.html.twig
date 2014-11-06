@@ -1,11 +1,11 @@
 {% extends "CPaintDefaultBundle::layout.html.twig" %}
-{% block title %}cPaint - {{ drawing.title }}{% endblock title %}
+{% block title %}cPixel Arts - {{ drawing.title }}{% endblock title %}
 {% block image %}{{ url('gallery_drawing_width', {slug:drawing.titleCanonical, width:320, ext:"png"}) }}{% endblock %}
 {% block url %}{{ url('drawing_show', {slug:drawing.titleCanonical}) }}{% endblock %}
 {% block content %}
 <div class="container-fluid">
     <h1>
-        <a href="{{ path('homepage') }}"><img class="logo" src="{{ asset('bundles/cpaintdefault/images/logo.png') }}" alt="cPaint" /></a>
+        <a href="{{ path('homepage') }}"><img class="logo" src="{{ asset('bundles/cpaintdefault/images/logo.png') }}" alt="cPixel Arts" /></a>
         <small>
             {% if drawing.isLocked %}
             <img class="lockpad" src="{{ asset('bundles/cpaintdefault/images/locked.gif') }}" alt="Locked" />
@@ -30,7 +30,7 @@
     </h1>
     <div class="sharing">
         <div class="facebook fb-share-button" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
-        <a href="https://twitter.com/share" class="twitter-share-button" data-via="cPaintApp">Tweet</a>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="cPixelArts">Tweet</a>
     </div>
     {% if drawing.isLocked %}
     <img class="pixelArt" src="{{ path('gallery_drawing_width', {slug:drawing.titleCanonical, width:512}) }}" alt="{{ drawing.title }}" />

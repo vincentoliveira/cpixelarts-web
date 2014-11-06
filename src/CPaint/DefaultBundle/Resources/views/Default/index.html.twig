@@ -2,9 +2,12 @@
 {% block content %}
 <div class="container-fluid">
     <h1>
-        <img class="logo" src="{{ asset('bundles/cpaintdefault/images/logo.png') }}" alt="cPaint" />
+        <img class="logo" src="{{ asset('bundles/cpaintdefault/images/logo.png') }}" alt="cPixel Arts" />
         <small>The first collaborative <strong>Pixel Art</strong> app</small>
     </h1>
+    <p>
+        Hey <strong>Pixel Artist</strong>, here you can create Pixel Arts, share it with your friends and edit your favorite artist drawings. Choose a color and start painting!
+    </p>
     {% include "CPaintDrawingBundle:Drawing:_drawing.html.twig" %}
     <form id="addPixelForm" action="{{ path('drawing_create') }}" method="POST" reload="true">
         <input type="hidden" name="width" value="{{ drawing.width }}" />
