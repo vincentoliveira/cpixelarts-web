@@ -20,6 +20,9 @@
         <meta name="twitter:description" content="{{ block('description') }}" />
         <meta name="twitter:image" content="{{ block('image') }}" />
         <meta name="twitter:url" content="{{ block('url') }}" />
+        <meta itemprop="name" content="{{ block('title') }}">
+        <meta itemprop="description" content="{{ block('description') }}">
+        <meta itemprop="image" content="{{ block('image') }}">
         {% endblock %}
 
         {% block stylesheets %}
