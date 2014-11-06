@@ -33,11 +33,13 @@ $(document).ready(function() {
         $("#drawing").find(".pixel").css("border-color", getSelectedColor());
         $('input[name="color"]').val($(this).attr("data-id"));
 
-        // if selected color is 42 => set background to white
-        if ($(this).attr("data-id") == 42) {
-            $('body').css('background-color', '#fff');
+        // if selected color is 151 => set background to white
+        if ($(this).attr("data-id") === "151") {
+            $('body').css('background-color', '#ffffff');
+            $('h1,h1 small,a').css('color', '#92b6ff');
         } else {
-            $('body').css('background-color', '#4992aa');
+            $('body').css('background-color', '#92b6ff');
+            $('h1,h1 small,a').css('color', '#ffffff');
         }
     });
     
@@ -53,8 +55,9 @@ $(document).ready(function() {
     });
     
     // if selected color is 42 => set background to white
-    if ($('.color.selected').attr("data-id") == 42) {
-        $('body').css('background-color', '#fff');
+    if ($('.color.selected').attr("data-id") === "151") {
+        $('body').css('background-color', '#ffffff');
+        $('h1,h1 small,a').css('color', '#92b6ff');
     }
 
     // add a pixel

@@ -152,7 +152,7 @@ class DrawingService
         $colors = [];
         foreach ($drawing->getPixels() as $pixel) {
             $y = intval($pixel->getPosition() / $this->dWidth);
-            $x = ($pixel->getPosition() % $this->dHeight);
+            $x = ($pixel->getPosition() % $this->dWidth);
 
             $color = $pixel->getColor();
             if (!isset($colors[$color])) {
