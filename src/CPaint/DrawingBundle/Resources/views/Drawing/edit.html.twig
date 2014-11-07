@@ -7,11 +7,9 @@
     <h1>
         <a href="{{ path('homepage') }}"><img class="logo" src="{{ asset('bundles/cpaintdefault/images/logo.png') }}" alt="cPixel Arts" /></a>
         <small>
-            {% if drawing.isLocked %}
-            <img class="lockpad" src="{{ asset('bundles/cpaintdefault/images/locked.gif') }}" alt="Locked" />
-            {% else %}
-            <a class="lock-it" href="{{ path('drawing_lock', {id:drawing.id}) }}" title="Lock it: so nobody can edit it">
-                <img class="lockpad" src="{{ asset('bundles/cpaintdefault/images/unlocked.gif') }}" alt="Locked" />
+            {% if not drawing.isLocked %}
+            <a class="lock-it" href="{{ path('drawing_lock', {id:drawing.id}) }}" title="Lock it: so nobody else can edit it">
+                <img class="lockpad" src="{{ asset('bundles/cpaintdefault/images/locked.gif') }}" alt="Locked" />
             </a>
             {% endif %}
             {{ drawing.title }}
