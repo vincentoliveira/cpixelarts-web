@@ -200,14 +200,42 @@ class DrawingService
     }
 
     /**
-     * Add pixel to a drawing. Return null on error
+     * Add pixels to a drawing. Return null on error
      * 
      * @param \CPaint\DrawingBundle\Entity\Drawing $drawing
      * @param type $color
      * @param type $position
      * @return \CPaint\DrawingBundle\Entity\Pixel|null
      */
-    public function addPixelToDrawing(Drawing $drawing, $color, $position)
+    public function addPixelsToDrawing(Drawing $drawing, $colors, $positions)
+    {
+        if (!is_array($colors)) { $colors = array($colors); }
+        if (!is_array($positions)) { $positions = array($positions); }
+        
+        $pixels = array();
+        foreach ($colors as $i => $color) {
+            if (!isset($positions[$i])) {
+                break;
+            }
+            
+            $pixel = $this->addSinglePixelToDrawing($drawing, $color, $positions[$i]);
+            if ($pixel !== null) {
+                $pixels[] = $pixel;
+            }
+        }
+        
+        return $pixels;
+    }
+    
+    /**
+     * Add single pixel to a drawing. Return null on error
+     * 
+     * @param \CPaint\DrawingBundle\Entity\Drawing $drawing
+     * @param type $color
+     * @param type $position
+     * @return \CPaint\DrawingBundle\Entity\Pixel|null
+     */
+    public function addSinglePixelToDrawing(Drawing $drawing, $color, $position)
     {
         if ($drawing === null || $color < 0 || $color >= 256 || $position < 0 || 
                 $position >= $drawing->getWidth() * $drawing->getHeight()) {

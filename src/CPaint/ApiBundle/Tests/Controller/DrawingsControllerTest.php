@@ -33,7 +33,7 @@ class DrawingsControllerTest extends CPaintDefaultTestCase
 
         // Get drawing that does not exist
         $this->client->request('GET', '/api/drawings/1');
-        $this->assertEquals(404, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /api/drawings/1");
+        $this->assertEquals(400, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /api/drawings/1");
 
         // create drawing
         $this->client->request('POST', '/api/drawings');
@@ -99,12 +99,23 @@ class DrawingsControllerTest extends CPaintDefaultTestCase
         $this->assertEquals($color, $responseDrawing3["drawing"]["pixels"][0]["color"], sprintf("Color should be %.", $color));
         $this->assertEquals($position, $responseDrawing3["drawing"]["pixels"][0]["position"], sprintf("Position should be %.", $position));
         
+        // Add many pixels
+        $addPixelUrl = '/api/drawings/' . $drawingID . '/pixels';
+        $this->client->request('POST', $addPixelUrl, array(
+            'color' => array($color + 1, $color + 2),
+            'position' => array($position + 1, $position + 2),
+        ));
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for POST " . $addPixelUrl);
+        $responseDrawing4 = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertCount(3, $responseDrawing4["drawing"]["pixels"], "Should contain 3 pixel.");
+
+        
         // Lock
         $this->client->request('PATCH', '/api/drawings/' . $drawingID . "/lock");
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for PATCH /api/drawings/" . $drawingID . "/lock");
-        $responseDrawing4 = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertTrue($responseDrawing4["drawing"]["is_locked"], "Should be locked");
-        $this->assertTrue($responseDrawing4["drawing"]["is_displayable"], "Should be displayable");
+        $responseDrawing5 = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertTrue($responseDrawing5["drawing"]["is_locked"], "Should be locked");
+        $this->assertTrue($responseDrawing5["drawing"]["is_displayable"], "Should be displayable");
         
         // Get all drawings (should get 1 result)
         $this->client->request('GET', '/api/drawings');

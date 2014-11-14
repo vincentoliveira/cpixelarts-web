@@ -61,8 +61,8 @@ class DrawingController extends Controller
         $em->persist($drawing);
 
         // try to add pixel
-        $pixel = $service->addPixelToDrawing($drawing, $color, $position);
-        if ($pixel !== null) {
+        $pixels = $service->addPixelsToDrawing($drawing, $color, $position);
+        foreach ($pixels as $pixel) {
             $em->persist($pixel);
         }
 
@@ -130,23 +130,23 @@ class DrawingController extends Controller
      */
     public function addPixelAction(Request $request, Drawing $drawing)
     {
-        $color = $request->request->get('color');
-        $position = $request->request->get('position');
+        $em = $this->getDoctrine()->getManager();
+        
+        $color = $request->request->get('color', -1);
+        $position = $request->request->get('position', -1);
 
         $service = $this->get('cpaint.drawing');
-        $pixel = $service->addPixelToDrawing($drawing, $color, $position);
-        if ($pixel !== null) {
-            $drawing->addPixel($pixels);
-            $drawing->setDisplayable($service->isDisplayable($drawing));
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($pixel);
-            $em->persist($drawing);
-            $em->flush();
-        } else {
+        $pixels = $service->addPixelsToDrawing($drawing, $color, $position);
+        if (empty($pixels)) {
             // print error
             $session = $this->container->get('session');
             $session->getFlashBag()->add('error', 'Failed to add this pixel');
+        } else {
+            foreach ($pixels as $pixel) {
+                $em->persist($pixel);
+            }        
+
+            $drawing->setDisplayable($service->isDisplayable($drawing));
         }
 
         return $this->redirect($this->generateUrl('drawing_edit', array('id' => $drawing->getId(), 'color' => $color)));

@@ -67,10 +67,10 @@ class DrawingsController extends Controller
         $drawing = $service->initDrawing($width, $height, $title);
         
         // add a pixel
-        $color = intval($request->request->get('color', -1));
-        $position = intval($request->request->get('position', -1));
-        $pixel = $service->addPixelToDrawing($drawing, $color, $position);
-        if ($pixel !== null) {
+        $color = $request->request->get('color', -1);
+        $position = $request->request->get('position', -1);
+        $pixels = $service->addPixelsToDrawing($drawing, $color, $position);
+        foreach ($pixels as $pixel) {
             $em->persist($pixel);
             $drawing->addPixel($pixel);
         }
@@ -124,7 +124,6 @@ class DrawingsController extends Controller
         $drawing->setLocked(true);
         $drawing->setDisplayable($service->isDisplayable($drawing));
 
-        
         $em = $this->getDoctrine()->getManager();
         $em->persist($drawing);
         $em->flush();
@@ -136,27 +135,30 @@ class DrawingsController extends Controller
     }
 
     /**
-     * Add a pixel to a drawing
+     * Add a pixels to a drawing
      * 
      * @api
      */
     public function postDrawingPixelsAction(Request $request, $id)
     {
+        $em = $this->getDoctrine()->getManager();
         $drawing = $this->getDrawing($id);
         
-        $color = intval($request->request->get('color', -1));
-        $position = intval($request->request->get('position', -1));
-
+        $color = $request->request->get('color', -1);
+        $position = $request->request->get('position', -1);
         $service = $this->get('cpaint.drawing');
-        $pixel = $service->addPixelToDrawing($drawing, $color, $position);
-        if ($pixel === null) {
-            throw new HttpException(400, sprintf("This pixel (%d, %d) is not valid", $color, $position));
+        $pixels = $service->addPixelsToDrawing($drawing, $color, $position);
+        if (empty($pixels)) {
+            throw new HttpException(400, "Cannot add these pixels");
         }
         
-        $drawing->addPixel($pixel);
+        foreach ($pixels as $pixel) {
+            $em->persist($pixel);
+            $drawing->addPixel($pixel);
+        }
+        
         $drawing->setDisplayable($service->isDisplayable($drawing));
         
-        $em = $this->getDoctrine()->getManager();
         $em->persist($pixel);
         $em->persist($drawing);
         $em->flush();
@@ -189,7 +191,7 @@ class DrawingsController extends Controller
         $drawing = $repo->find($id);
 
         if (null === $drawing) {
-            throw new NotFoundHttpException(sprintf("Drawing with id '%s' could not be found.", $id));
+            throw new HttpException(400, sprintf("Drawing with id '%s' could not be found.", $id));
         }
 
         return $drawing;
