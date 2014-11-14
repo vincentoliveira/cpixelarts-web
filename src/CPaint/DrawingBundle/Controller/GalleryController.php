@@ -40,7 +40,7 @@ class GalleryController extends Controller
      * @Route("/drawing-{slug}.{ext}", name="gallery_drawing")
      * @Route("/drawing-{slug}", name="gallery_drawing_no_ext")
      */
-    public function bitmapAction($slug, $ext = 'gif', $width = 0, $height = 0)
+    public function exportAction($slug, $ext = 'gif', $width = 0, $height = 0)
     {
         $drawing = $this->findDrawingBySlug($slug);
         if ($drawing === null) {
@@ -52,7 +52,7 @@ class GalleryController extends Controller
             $height = $drawing->getHeight() * $width / $drawing->getWidth();
         }
         
-        $service = $this->get('cpaint.drawing');
+        $service = $this->get('cpaint.export');
         if (strtolower($ext) === 'png') {
             $ext = 'png';
             $filename = $service->exportPng($drawing, $width, $height);

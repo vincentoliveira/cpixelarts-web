@@ -8,5 +8,7 @@
         <service id="cpaint.drawing" class="CPaint\DrawingBundle\Service\DrawingService">
             <argument type="service" id="service_container" />
         </service>
+        <service id="cpaint.export" class="CPaint\DrawingBundle\Service\ExportService">
+        </service>
     </services>
 </container>

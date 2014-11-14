@@ -61,13 +61,33 @@ $(document).ready(function() {
     }
 
     // add a pixel
-    $(".empty-pixel").click(function(e) {
-        if (!$(this).hasClass("empty-pixel")) {
+    var isMouseDown = false;
+    var positions = [];
+    $(".empty-pixel").mousedown(function() {
+        isMouseDown = true;
+        positions = [$(this).attr("data-pos")];
+        $(this).removeClass("empty-pixel").css('background', getSelectedColor());
+    });
+    $(".empty-pixel").mouseup(function(e) {
+        e.preventDefault();
+        
+        isMouseDown = false;
+        if (positions.length <= 0) {
             return;
         }
         
+        // add hidden input form
+        $(".position-input").remove();
+        for (i = 0; i < positions.length; i++) {
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'position[' + i + ']',
+                class: 'position-input',
+                value: positions[i],
+            }).appendTo('#addPixelForm');
+        }
+
         $(this).removeClass("empty-pixel").css('background', getSelectedColor());
-        $('input[name="position"]').val($(this).attr("data-pos"));
         if ($("#addPixelForm").attr("reload") == "true") {
             $("#addPixelForm").submit();
         } else {
@@ -84,6 +104,22 @@ $(document).ready(function() {
                     location.reload();
                 }
             });
+        }
+
+        positions = [];
+    });
+    $(document).mouseup(function() {
+        isMouseDown = false;
+        for (i = 0; i < positions.length; i++) {
+            $(".pixel[data-pos=" + positions[i] + "]").addClass("empty-pixel").css('background', "");
+        }
+        
+        positions = [];
+    });
+    $(".empty-pixel").mouseover(function(e) {
+        if (isMouseDown) {
+            positions.push($(this).attr("data-pos"));
+            $(this).removeClass("empty-pixel").css('background', getSelectedColor());
         }
     });
 

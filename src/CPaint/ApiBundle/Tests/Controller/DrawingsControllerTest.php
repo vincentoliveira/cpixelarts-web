@@ -98,9 +98,16 @@ class DrawingsControllerTest extends CPaintDefaultTestCase
         $this->assertEquals($color, $responseDrawing3["drawing"]["pixels"][0]["color"], sprintf("Color should be %.", $color));
         $this->assertEquals($position, $responseDrawing3["drawing"]["pixels"][0]["position"], sprintf("Position should be %.", $position));
         
+        // Cannot add pixel over another
+        $this->client->request('POST', $addPixelUrl, array(
+            'color' => $color,
+            'position' => $position,
+        ));
+        $this->assertEquals(400, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for POST " . $addPixelUrl);
+
         // Add many pixels
         $this->client->request('POST', $addPixelUrl, array(
-            'color' => array($color + 1, $color + 2),
+            'color' => $color,
             'position' => array($position + 1, $position + 2),
         ));
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for POST " . $addPixelUrl);

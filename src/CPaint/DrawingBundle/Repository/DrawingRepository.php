@@ -49,8 +49,6 @@ class DrawingRepository extends EntityRepository
 
         $results = array();
         foreach ($rawResults as $result) {
-            $result[0]['nb_pixels'] = $result[1];
-            $result[0]['nb_colors'] = $result[2];
             $drawing = array(
                 'id'                => $result[0]['id'],
                 'title'             => $result[0]['title'],
@@ -59,8 +57,8 @@ class DrawingRepository extends EntityRepository
                 'is_locked'         => $result[0]['isLocked'],
                 'width'             => $result[0]['width'],
                 'height'            => $result[0]['height'],
-                'nb_pixels'         => $result[1],
-                'nb_colors'         => $result[2],
+                'nb_pixels'         => intval($result[1]),
+                'nb_colors'         => intval($result[2]),
             );
             $results[] = $drawing;
         }

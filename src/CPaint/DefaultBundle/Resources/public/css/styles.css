@@ -28,7 +28,16 @@ footer { margin: 50px 0; }
 #drawing .line .pixel:first-child { border-left: 20px solid white; }
 #drawing .line .pixel:last-child { border-right: 20px solid white; }
 
-#drawing .pixel { width: 20px; height: 20px; }
+#drawing .pixel { 
+    width: 20px; 
+    height: 20px; 
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 .sharing iframe { vertical-align: middle; height: 22px !important; }
 .hcount #count { min-width: 15px; }
 

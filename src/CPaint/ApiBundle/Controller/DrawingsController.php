@@ -67,7 +67,7 @@ class DrawingsController extends Controller
         $drawing = $service->initDrawing($width, $height, $title);
         
         // add a pixel
-        $color = $request->request->get('color', -1);
+        $color = intval($request->request->get('color', -1));
         $position = $request->request->get('position', -1);
         $pixels = $service->addPixelsToDrawing($drawing, $color, $position);
         foreach ($pixels as $pixel) {
@@ -144,7 +144,7 @@ class DrawingsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $drawing = $this->getDrawing($id);
         
-        $color = $request->request->get('color', -1);
+        $color = intval($request->request->get('color', -1));
         $position = $request->request->get('position', -1);
         $service = $this->get('cpaint.drawing');
         $pixels = $service->addPixelsToDrawing($drawing, $color, $position);
