@@ -235,7 +235,7 @@ class Drawing
      *
      * @return boolean 
      */
-    public function IsLocked()
+    public function isLocked()
     {
         return $this->isLocked;
     }

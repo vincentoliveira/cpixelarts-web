@@ -88,7 +88,6 @@ class DrawingsControllerTest extends CPaintDefaultTestCase
         ));
         $this->assertEquals(400, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for POST " . $addPixelUrl . " with bad parameters");
         
-        $addPixelUrl = '/api/drawings/' . $drawingID . '/pixels';
         $this->client->request('POST', $addPixelUrl, array(
             'color' => $color,
             'position' => $position,
@@ -100,7 +99,6 @@ class DrawingsControllerTest extends CPaintDefaultTestCase
         $this->assertEquals($position, $responseDrawing3["drawing"]["pixels"][0]["position"], sprintf("Position should be %.", $position));
         
         // Add many pixels
-        $addPixelUrl = '/api/drawings/' . $drawingID . '/pixels';
         $this->client->request('POST', $addPixelUrl, array(
             'color' => array($color + 1, $color + 2),
             'position' => array($position + 1, $position + 2),
@@ -109,13 +107,19 @@ class DrawingsControllerTest extends CPaintDefaultTestCase
         $responseDrawing4 = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertCount(3, $responseDrawing4["drawing"]["pixels"], "Should contain 3 pixel.");
 
-        
         // Lock
         $this->client->request('PATCH', '/api/drawings/' . $drawingID . "/lock");
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for PATCH /api/drawings/" . $drawingID . "/lock");
         $responseDrawing5 = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertTrue($responseDrawing5["drawing"]["is_locked"], "Should be locked");
         $this->assertTrue($responseDrawing5["drawing"]["is_displayable"], "Should be displayable");
+        
+        // cannot add pixel to lock drawing
+        $this->client->request('POST', $addPixelUrl, array(
+            'color' => $color,
+            'position' => $position,
+        ));
+        $this->assertEquals(400, $this->client->getResponse()->getStatusCode(), "Unexpected HTTP status code for POST " . $addPixelUrl);
         
         // Get all drawings (should get 1 result)
         $this->client->request('GET', '/api/drawings');

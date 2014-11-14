@@ -174,7 +174,7 @@ class DrawingService
      */
     public function isDisplayable(Drawing $drawing)
     {
-        return ($drawing->getPixels()->count() > 0 && $drawing->IsLocked()) ||
+        return ($drawing->getPixels()->count() > 0 && $drawing->isLocked()) ||
                 ($drawing->getPixels()->count() >= ($drawing->getWidth() * $drawing->getHeight() / 16));
     }
 
@@ -237,7 +237,8 @@ class DrawingService
      */
     public function addSinglePixelToDrawing(Drawing $drawing, $color, $position)
     {
-        if ($drawing === null || $color < 0 || $color >= 256 || $position < 0 || 
+        if ($drawing === null || $drawing->isLocked() || 
+                $color < 0 || $color >= 256 || $position < 0 || 
                 $position >= $drawing->getWidth() * $drawing->getHeight()) {
             return null;
         }
