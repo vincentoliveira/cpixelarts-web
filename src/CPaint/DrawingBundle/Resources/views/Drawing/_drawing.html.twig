@@ -1,3 +1,8 @@
+{% if drawing.isLocked %}
+{% set editableClass = "pixel" %}
+{% else %}
+{% set editableClass = "pixel empty-pixel" %}
+{% endif %}
 <div id="drawing-container" class="row">
     <div class="col-md-9">
         <div id="drawing" class="edit-bitmap" drawing-width="{{ drawing.width }}" drawing-height="{{ drawing.height }}">
@@ -7,7 +12,7 @@
                 {% if pixel %}
                 <div class="pixel" style="border-color:#{{ rgbColors[currentColor] }}; background-color:#{{ pixel}}">&nbsp;</div>
                 {% else %}
-                <div class="pixel empty-pixel" style="border-color:#{{ rgbColors[currentColor] }}" data-pos="{{ k }}">&nbsp;</div>
+                <div class="{{ editableClass }}" style="border-color:#{{ rgbColors[currentColor] }}" data-pos="{{ k }}">&nbsp;</div>
                 {% endif %}
             {% endfor %}
             </div>

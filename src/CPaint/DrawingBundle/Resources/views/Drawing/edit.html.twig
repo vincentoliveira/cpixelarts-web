@@ -20,20 +20,16 @@
                 <button type="submit" class="btn btn-default">Go</button>
             </form>
             {% endif %}
-            {% if not drawing.isLocked %}
             <span class="separator">·</span>
-            <a href="{{ block('image') }}" target="_blank"><em>View image</em></a>
-            {% endif %}
+            <a href="{{ block('image') }}" target="_blank"><em>Download</em></a>
         </small>
     </h1>
     <div class="sharing">
         <div class="facebook fb-share-button" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
         <a href="https://twitter.com/share" class="twitter-share-button" data-via="cPixelArts">Tweet</a>
     </div>
-    {% if drawing.isLocked %}
-    <img class="pixelArt" src="{{ path('gallery_drawing_width', {slug:drawing.titleCanonical, width:512}) }}" alt="{{ drawing.title }}" />
-    {% else %}
     {% include "CPaintDrawingBundle:Drawing:_drawing.html.twig" %}
+    {% if not drawing.isLocked %}
     <form id="addPixelForm" action="{{ path('post_drawing_pixels', {id:drawing.id}) }}" method="POST" reload="false">
         <input type="hidden" name="color" value="{{ currentColor }}"/>
         <input type="hidden" name="position" value="-1" />
