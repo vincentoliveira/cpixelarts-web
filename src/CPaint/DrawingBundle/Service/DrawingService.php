@@ -103,7 +103,7 @@ class DrawingService
     public function isDisplayable(Drawing $drawing)
     {
         return ($drawing->getPixels()->count() > 0 && $drawing->isLocked()) ||
-                ($drawing->getPixels()->count() >= ($drawing->getWidth() * $drawing->getHeight() / 16));
+                ($drawing->getPixels()->count() >= ($drawing->getWidth() * $drawing->getHeight() / 8));
     }
 
     /**
